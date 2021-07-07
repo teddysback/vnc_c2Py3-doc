@@ -1,0 +1,46 @@
+
+%\chapter{Introduction}
+\chapter{Introducere}
+\label{cap:Introducere}
+
+
+%Ce se scrie aici:
+%\begin{itemize}
+%    \item Contextul
+%    \item Conturarea/Descrierea domeniului exact al temei
+%    \item Se răspunde la întrebările: \textbf{ce} (s-a făcut)?, \textbf{de ce} (s-a făcut, adică motivația; ce se rezolvă, la ce este util, etc.)?, \textbf{cum} (s-a făcut, adică particularitățile abordării, prezentate sumar).
+%    \item Introducerea se termină cu o descriere a conținutului lucrării, de genul: Cap X descrie ..., Cap Y prezintă ...
+%    \item Introducerea reprezintă o sinteză a lucrării, din care cititorul trebuie să-și poată da bine seama dacă lucrarea prezintă sau nu interes pentru el. 
+%    \item Se poate organiza pe subsecțiuni, dacă se dorește, după exemplul de mai jos, dar nu e obligatoriu asta, având în vedere dimensiunea mică
+%    \item reprezintă cca 5\% din lucrare (nu mai mult de 2-4 pagini)
+%\end{itemize}
+
+\section{Context}
+
+%Despre contextul în care este abordată și se aplică tema lucrării.
+Industria IT este într-o dezvoltare accelerată, dar la fel ca oricare alt domeniu are ramuri care sunt suprapopulate și ramuri care necesită îmbunătățite. Creșterea amenințărilor și atacurilor cibernetice generează o cerere foarte mare pentru securitate, atât în cadrul utilizatorilor obișnuiți cât și al companiilor. Pentru a putea oferi soluții capabile să protejeze împotriva oricărui fel de risc și vulnerabilitate, sistemele de securitate trebuie să aibă în primul rând o calitate înaltă. O astfel de performanță este dobândită printr-o testare amănunțită.
+
+În cadrul unei companii se folosesc diverse unelte hardware, software și metodologii de testare. Există o varietate mare de unelte dedicate testării automate, de performanță sau chiar de tracking, dar de cele mai multe ori acestea nu sunt suficient de diversificate sau optimizabile datorită caracterului generic care îl îmbracă, și se optează pentru dezvoltarea de soluții inhouse.
+
+Este cu atât mai dificilă testarea cu cât proiectele sunt mai îndrăznețe. Dorința de eficientizare a procesului de debugging a declanșat necesitatea unei infrastructuri de testare cât mai complexă. Un asemenea sistem necesită o multitudine de feature-uri cu cât mai puține dependințe externe, pentru a furniza un acces low-level în diverse faze de execuție.
+
+
+%\section{Motivation}
+\section{Motivație}
+%De ce este utilă abordarea temei? Ce probleme rezolvă și ce rezultate poate aduce?
+Un avantaj extraordinar îl constituie abilitatea unui server de testare de a se conecta la distanță la un calculator client pentru a vedea starea în care se află. Pentru a soluționa această problemă putem să o abordăm în două moduri: folosirea unei surse existente sau implementarea unui protocol de la zero. Deoarece implementarea unui protocol ar fi mult prea costisitoare, iar utilizarea software-urilor existente au dezavantajul că nu expun buffer-ul video, s-a optat pentru utilizarea unei biblioteci. Cea mai apropiată soluție de nevoile noastre are un dezavantaj: arhitectura a fost gândită în așa fel încât o singură conexiune este posibilă la un moment dat. Astfel provocarea s-a transformat în scrierea unui wrapper pentru această bibliotecă, care să poată depăși acest impediment.
+
+Inițial proiectul a fost gândit ca o temă de cercetare. S-a cerut efectuarea unui studiu pe tehnologii hardware și firmware AMT(Active Management Technology). Acestea au o multitudine de funcționalități: management la distanță, mentenanță, posibilitate de update și upgrade. După se analizează potențialul și se stabilesc mai multe ținte, se încearcă realizarea unu prototip pe unul din ele. Având în vedere că analiza s-a realizat cu mult timp înainte, s-a ales ca subiect de interes capacitatea de conexiune remote pentru a dispune direct de Pixel Buffer. 
+
+După ce se realizează un prototip minimalist și funcțional în limbajul C, se va încerca realizarea unui software similar, dar scris pentru utilizare în limbajul Python. Pentru implementarea în Python s-a ales varianta scrierii unui wrapper peste librăria C găsită(vncamt.dll), în detrimentul rescrierii tuturor protocoalelor de comunicare dintre server și client folosind AMT. Trebuie luat în considerare că s-a cerut să fie dezvoltat in Python 3, lucru care va îngreuna sarcina deoarece s-au produs numeroase schimbări de la versiunea anterioară, și multe dintre modulele necesare nu au fost încă actualizate pentru versiunea de Windows. Nu este importantă metoda de redare grafică. Obiectivul principal este capacitatea de a oferi acces direct la buffer-ul video într-o manieră paralelă.
+
+%\section{Report's Structure}
+\section{Structura lucrării}
+Capitolul~\ref{cap:obiective-specificatii} prezintă atât obiectivele proiectului de licență cât și obiectivele viitoare.\\
+Capitolul~\ref{cap:studiu-bibliografic} descrie sursele biografice utilizate în procesul de dezvoltare al acestui proiect. Deciziile de dezvoltare au fost influențate și prin compararea cu alte soluții existente. Sunt incluse detalii despre tehnologiile și algoritmii folosiți.\\
+Capitolul~\ref{cap:fund-teoretice} are ca obiectiv fixarea tuturor noțiunilor folosite în proiect. Sunt prezentate numeroase concepte relevante temei..\\
+Capitolul~\ref{cap:analiza-si-proiectare} include descrieri detaliate în legătură cu design-ul proiectului: arhitectura generală și detaliată a sistemului, diagramă de stare, diagrame de secvențe, prezentarea algoritmilor, plus o serie de avantaje și dezavantaje.\\
+În capitolul~\ref{cap:implementare} se prezintă organizarea codului, clasele și API-urile importante, descrierea algoritmilor principali.\\
+Capitolul ~\ref{cap:rezultate} are ca obiectiv prezentarea metodelor de validare a soluțiilor și interpretări de performanță.
+Capitolul ~\ref{cap:user-manual} descrie pașii de parcurs pentru a efectua instalarea și rularea extensiei.\\
+Capitolul ~\ref{cap:concluzii} prezintă un rezumat al contribuțiilor aduse și o descrierea a posibilelor dezvoltări și îmbunătățiri.

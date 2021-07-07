@@ -1,0 +1,301 @@
+%\chapter{Implementation Details}
+\chapter{Detalii de implementare}
+\label{cap:implementare}
+
+
+%Ponderea acestui capitol relativ la întreaga lucrare este de 20-30\%.
+%
+%Conține detalii de implementare: 
+%\begin{itemize}
+%  \item organizarea codului sursă, organizarea logică a codului (module, ierarhii de clase)
+%  \item descrierea claselor, funcțiilor, API-urilor importante ale aplicației
+%  \item descrierea la nivel de implementare a algoritmilor principali
+%  \item descrierea părților mai dificile
+%  \item alte detalii de implementare relevante, specifice fiecărei aplicații
+%\end{itemize}
+%
+%Descrierea implementării trebuie să reflecte modul în care ea corespunde (se mapează) design-ului. 
+%
+%Nu se vor da detalii irelevante. Descrierea codului trebuie gândită ca un ghid de parcurgere a codului sursă de către cineva care vrea să continue proiectul vostru. 
+%
+%Exemplu de cod:
+%\lstset{language=C,frame=single, showstringspaces=false}
+%\begin{lstlisting}
+%# include <stdio.h>
+%  
+%int main (int argc, char **argv)
+%{
+%  int i;
+%    
+%  for (i=0; i<argc; i++)
+%    printf("argv[%d] = %s\n", i, argv[i]);
+%    
+%  return 0;
+%}
+%\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %20-30\% --> 11-16.5pg
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%în dezvoltarea aplicației s-au folosit diverse librării. 
+%-amt  sdk 11.0.0.35
+%-py3.5 
+%-vs2015
+%-wheel ver
+%-numpy..ver
+%-pygame ver
+
+Inițial s-a început scrierea proiectului folosind Microsoft Visual Studio 2012 și Python 2.7 pe sistemul de operare Windows 8. S-a dovedit foarte greu de întreținut. Compilarea era destul de greoaie. Necesita MingW și în unele cazuri de utilizare a proiectului pe alte calculatoarea se dovedea de cele mai multe ori imposibil. Migrarea proiectului la Microsoft Visual Studio 2015 și Python 3.5 a fost una benefică. Din rândul dependințelor nu au apărut probleme. Modulele externe de Python folosite sunt: wheel, numpy versiunea 1.11.0b2 și pygame 1.9.2a0 pentru Python 3.5 arhitectură x64. Proiectul a fost realizat cu următoarele setări în Visual Studio:  
+
+\begin{itemize}
+  \item Warning Level: \textbf{Level 4}
+  \item Treat Warnings As Errors: \textbf{Yes}
+\end{itemize}
+
+De cealaltă parte, în proiectul de C există doua mari include-uri. Unul se referă la arhitectura modului, și anume Pyton.h, iar celalalt este modalitatea de comunicare a informațiilor de volum mare, API-ul de C pentru Numpy. 
+
+Probabil cea mai importantă componentă din acest proiect este reprezentată de SDK. În dezvoltarea acestui proiect s-a folosit Intel AMT versiunea 11.0.0.35. Acesta oferă o abundență de funcții. Protocolul Remote Frambuffer folosit pentru VNC are versiunea 3.8. El este cel care se ocupă de comunicarea dintre sisteme.
+Deși RFB la început a fost un protocol relativ simplu, acesta a fost îmbunătățit cu caracteristici suplimentare, cum ar fi transferurile de fișiere, compresii avansate și tehnici de securitate. Pentru a menține compatibilitate între mai multi clienți și servere VNC cu implementări diferite, clienții și serverele negociază o conexiune utilizând cea mai buna versiune RFB, și opțiunile de compresie și de securitate cele mai potrivite pe care le pot suporta ambele.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{vsproj}
+    \caption{\textit{Structura proiectelor}}
+    \label{vsp}
+\end{figure}
+
+Pentru structurarea aplicației, în mediul de lucru Visual Sutdio 2015, am ales să separ rolurile și să le structurez în proiecte după funcționalitatea acestora. În figura \ref{vsp} este prezentată structura temei, așa cum apare ea în Microsoft Visual Studio. Pentru proiectul în Python s-a folosit o extensie externă. Python Tools pentru Visual Studio este o extensie complet gratuită, dezvoltă și întreținută de Microsoft cu contribuții din partea comunității. Pe Github este disponibil un repository pentru a vizualiza sau pentru a participa la dezvoltare.
+
+
+
+\section{Structura modulului}
+
+Este nevoie să include fișierul \textit{Python.h} în fișierul sursă C, care oferă acces la API Python intern utilizat pentru a face legătura dintre modulul și interpretor. Trebuie asigurat că \textit{Python.h} se include înainte de orice alt antet de care am putea avea nevoie. 
+
+Fiecare metodă returnează un obiect Python. Nu există nici un astfel de lucru ca o funcție de tip void în Python, spre deosebire de C. În cazul funcțiilor care nu necesită să returneze o valoare, întoarce echivalentul din C  pentru valoarea \textit{None} din Python. Header-ele Python definesc un macro, Py\_RETURN\_NONE, care face acest lucru.
+
+Maparea metodelor se face cu un array simplu de structuri PyMethodDef. Aici se găsesc toate metodele C. Acestea, de obicei, sunt denumite prin combinarea de nume de module și funcții, așa cum se arată aici:
+\lstset{language=C,frame=single, showstringspaces=false}
+\begin{lstlisting}
+static PyObject*
+modul_functie(PyObject *self, PyObject *args) 
+{
+	if (!PyArg_ParseTuple(args, "ii", &x, &y)) 
+	{
+      return NULL;
+   	}
+    /* ... */
+    Py_BuildValue("i", z);
+}
+\end{lstlisting}
+
+Pentru parsarea argumentelor în momentul în care o funcție se apelează din Python se poate utiliza funcția PyArg\_ParseTuple API pentru a extrage ponterul PyObject trimis funcției C. Primul argument al metodei PyArg\_ParseTuple este \textit{args}. Acesta este obiectul de parsat. Al doilea argument este un șir ce descrie formatul argumentelor ce trebuie așteptate. Fiecare argument este reprezentat de una sau mai multe caractere. Ele denumesc tipuri de date: integer, double, string, PyObject. Această funcție returnează 0 în caz de eroare, sau o valoare diferită de 0 pentru succes. Tupla este obiectul PyObject care a fost pasat în format drept al doilea argument. Py\_BuildValue primește un șir de formatare similar cu PyArg\_ParseTuple. În loc să paseze adresele către valorile, se transmit valorile reale. Variabila \textit{self} nu este unică limbajului Python. Această idee a fost împrumutată de la \textit{Modula-3}, după ce s-a dovedit utilă într-un use case. Nu există o declarare explicită a variabilei în Python și nici nu este un keyword Python dedicat.
+
+\section{Contorul de referințe}
+
+Toate obiectele Python, chiar și întregii, au un tip și un număr de referință. Tipul unui obiect determină ce fel de obiect este, de exemplu un număr întreg ,o listă sau o funcție definită de utilizator. Pentru fiecare dintre tipurile de date cunoscute există un macro ce verifică dacă un obiect este de acest tip.
+
+Numărul de referință este important deoarece mărimea memoriei calculatoarelor este finită. Contează în cât de multe locuri există câte o referință la un obiect. Un astfel de loc ar putea fi un alt obiect, sau o variabilă globală C, sau o variabilă locală în unele funcții C. Atunci când numărul de referință a unui obiect devine zero, obiectul este dealocat. În cazul în care conține referințe la alte obiecte, numărul de referință este decrementat. Acele alte obiecte pot fi dealocate, la rândul lor, în cazul în care acest decrement face ca numărul lor de referință să devină zero, și așa mai departe.
+
+Contorul de referință este întotdeauna manipulat în mod explicit. În mod normal se utilizează un macro \textit{Py\_INCREF()} pentru a incrementa numărul de referință al unui obiect cu unu, și \textit{Py\_DECREF()} pentru a decrementa cu o unitate. Macroul \textit{Py\_DECREF()} este mult mai complex decât cel de incrementare, deoarece trebuie să verifice dacă numărul de referință devine zero și apelează dealocatorul obiectului. Dealocatorul este un pointer al unei funcții din structura obiectului. Dealocatorul are grijă de decrementarea referințelor pentru celelalte obiecte din interiorul obiectului în cazul în care acesta este un tip de obiect compus, cum ar fi o listă. În plus se ocupă de executarea oricărei operații suplimentare de finalizare. Nu există nici o șansă ca numărul de referință să facă overflow. Se folosesc cel puțin la fel de multi biți pentru a salva reference counter-ul cât există locații de memorie distincte în memoria virtuală există.
+
+Atunci când o funcție pasează o referință la un obiect, există două posibilități: funcția fură o referință la obiect, sau nu. Furt de referință înseamnă că atunci când pasezi o referință la o funcție, funcția presupune că deține acum această referință, și nici nu mai suntem responsabili de ea. Câteva funcții fură referințe. Cele două excepții notabile sunt \textit{PyList\_SetItem()} și \textit{PyTuple\_SetItem()}. De exemplu \textit{PyInt\_FromLong()} returnează o nouă referință, care poate fi imediat furată de \textit{PyTuple\_SetItem()}. Dacă se dorește să se continue utilizarea unui obiect, deși referința la acesta va fi furată, se folosește \textit{Py\_INCREF()} pentru a incrementa înainte de a apela funcția care fură referința.
+
+
+Există o funcție generică, \textit{Py\_BuildValue()}, care poate crea obiecte mai comune folosind valorile din C. Folosește un string de formatare. De exemplu, cele de mai valori care au fost folosite pentru a crea un obiect Python, pentru a fi trimis în Python:
+\lstset{language=C,frame=single, showstringspaces=false}
+\begin{lstlisting}
+/* ... */
+ arglist = Py_BuildValue("(O)", context->self);
+ result = PyObject_CallObject(py_CredentialsCallback, arglist);
+/* ... */
+}
+\end{lstlisting}
+
+
+
+\section{Structuri de date proprii}
+
+Din cauza regulilor de design impuse de API-ul de C pentru Python și de librăria vncamt, acest folosește variabile globale. Majoritatea ar putea obiecta pentru că este bad practice. Aceste variabile sunt accesibile din tot programul. S-a optat pentru această opțiune deoarece este nevoie ca structura VNCViewerSDK ce conține toți pointerii către funcțiile sdk-ului după inițializare să fie accesibilă.
+
+Fiecare viewer care este creeat are un set de callback-uri care le implementează. Aceste callback-uri au un context. În momentul în care sunt apelate, se transmite ca parametru un pointer către o structură specială. Această structură este înregistrată folosind metoda \textit{VNCViewerSetContext()} din SDK. Următoarea secvență de cod are rolul de a defini structura cu toate datele necesare.
+\lstset{language=C,frame=single, showstringspaces=false}
+\begin{lstlisting}
+typedef struct _VNC_VIEWER_CONTEXT
+{
+    char		*ipAddress;                    
+    PyObject		*self;                     
+    VNCViewer		*pViewer;                 
+    VNCViewerCallbacks	vncCallbacks;    
+} VIEWER_CONTEXT, *PVIEWER_CONTEXT;
+\end{lstlisting}
+
+Se memorează pentru fiecare viewer o adresă de IP, care are avantajul ca e unică. De asemenea sunt înregistrate pointerul către viewer-ul de VNC și callback-urile acestuia. Obiectul Python din structură este de fapt pointer la obiectul VNCViewer corespunzător din Python. Este foarte util în momentul în care se apelează callback-urile. În Python metodele primesc acest pointer, și cu ajutorul unui mic artificiu știu direct să actualizeze instanța de PixelBuffer corespunzptoare.
+
+Pentru a putea avea un management al acestor structuri a fost necesară crearea unor liste în care să fie salvate. S-a optat pentru o listă dublu înlănțuită deoarece oferă o flexibilitate sporită: 
+\lstset{language=C,frame=single, showstringspaces=false}
+\begin{lstlisting}
+typedef struct _LIST_T
+{
+    struct _LIST_T	*next;
+    struct _LIST_T	*prev;
+    PVIEWER_CONTEXT	context;
+}LIST_T, *PLIST_T;
+\end{lstlisting}
+
+Au fost implementate metodele necesare management-ului. Pentru a crea o listă, folosim metoda \textit{ListInsert()} deoarece inserează noile elemente în fața listei. Acest lucru se realizează deoarece acest ultim viewer creat are cele mai mai șanse să fie folosit următorul. În momentul în care avem nevoie de un viewer se poate apela \textit{ListGetNode()}, iar pentru șterge nodul din listă și pentru a elibera memoria se folosește \textit{ListDeleteNode()}.
+
+
+\section{Integrarea bibliotecii vncamt}
+%incarcarea librariei conform docs
+%implementarea callback-urile. -respecta definitia din .h -este proprie
+%inregistrarea lor
+%partile comunica prin functii si callback uri
+
+SDK-ul RealVNC Viewer permite crearea și manipularea de obiecte VNC. Un viewer VNC se poate conecta la un server VNC, și poate afișa conținutul ecranului serverului VNC pe propriul ecran, fie prin folosirea ferestrei desktop implicite, fie prin crearea unei ferestre care să afișeze notificările de update. 
+
+%figura
+
+
+În figura \ref{cbs} se prezintă interacțiunea dintre librăria vncamt și aplicație. Pentru a încărca librăria se folosește funcția \textit{LoadLibrary()}. Se localizează funcția de inițializare a bibliotecii, adică \textit{VNCViewerSDKInitialize()}, și se apelează \textit{GetProcAddress()}. Există o structură importantă. După inițializare structura \textit{VNCViewerSDK} este populată cu toate celelalte funcții ale librăriei. Acestea presupun manipularea unu viewer. Acest VNC viewer este o structură opacă. Pentru crearea unui astfel de obiect trebuie apelată metoda \textit{VNCViewerCreate()}. Această funcție necesită transmiterea structurii \textit{VNCViewerCallbacks} pentru a furniza toate adresele funcțiilor ce trebuie înregistrate. Nu toate sunt obligatorii, dar există trei funcții care trebuie tot timpul implementate. \textit{VNCViewerServerInitCallback} notifică clientul că a fost realizată o conexiune cu succes. \textit{VNCViewerStatusCallback} oferă notificări în momentul în care o autentificare a eșuat sau când o conexiune a fost pierdută. \textit{VNCViewerCredentialsCallback} este folosit de user pentru a introduce o parolă în cazul în care serverul cere acest lucru. Mai departe se apelează metoda \textit{VNCViewerStart()} pentru a porni VNC viewer-ul. Se realizează conexiunea dintre clientul VNC și serverul VNC. Dacă a fost cu succes, utilizatorul poate să vadă desktop-ul remote la el pe calculator. Trebuie reținut faptul că există un timeout. În cazul în care nu se apelează în mod explicit \textit{VNCViewerStop()}, conexiunea se închid din motive de inactivitate. În ambele cazuri \textit{VNCViewerStatusCallback()} oferă un mesaj de informare despre oprirea viewer-ului. Acest callback este foarte util atunci când avem nevoie să facem un management al resurselor. De exemplu se poate apela funcția \textit{VNCViewerDestroy()} pentru a șterge VNC viewer-ul, sau se poate reapela callback-ul de autentificare pentru a păstra obiectul și a îl refolosi. Așa cum bine se poate observa comunicarea este în ambele sensuri într-o manieră organizată.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.55\textwidth]{callback}
+    \caption{\textit{Integrarea librăriei}}
+    \label{cbs}
+\end{figure}
+
+
+
+\section{Structuri de date importate}
+
+NumPy oferă un API de C pentru a permite utilizatorilor să extindă sistemul și să obțină accesul la obiect de tip matrice pentru a fi utilizate în alte rutine. 
+Câteva tipuri noi sunt definite în C. Cele mai multe dintre acestea sunt accesibile din Python, dar câteva nu sunt expuse datorită utilizării lor limitate. Fiecare nou tip Python are un PyObject * asociat cu o structură internă care include un pointer la o tabelă de metode, ce definește modul în care noul obiect se comportă în Python. Când se primește un obiect Python în cod C, se obține întotdeauna un pointer la o structură PyObject.
+
+Există două mari tipuri noi: ndarray( \textit{PyArray\_Type} ) și ufunc( \textit{PyUFunc\_Type} ). Cel folosit în proiect este primul. PyArrayObject este o structura C oferită de API ce poate ține toate datele despre pixeli și poate fi interpretată și în Python. Aceasta conține toate informațiile necesare pentru o matrice. Toate instanțele unui ndarray, și subclasele sale, au această structură. Pentru compatibilitate viitoare, aceste elemente ale structurii ar trebui să fie accesate în mod normal folosind macro-urile oferite. Pentru un nume mai scurt se poate folosi NPY\_AO care este definit echivalent cu PyArrayObject. Arată astfel:
+
+\lstset{language=C,frame=single, showstringspaces=false}
+\begin{lstlisting}
+typedef struct PyArrayObject {
+    PyObject_HEAD
+    char *data;
+    int nd;
+    npy_intp *dimensions;
+    npy_intp *strides;
+    PyObject *base;
+    PyArray_Descr *descr;
+    int flags;
+    PyObject *weakreflist;
+} PyArrayObject;
+\end{lstlisting}
+
+Rutina \textit{PyArray\_SimpleNewFromData()} face într-un mod simplu conversia unei zone de memorie alocate într-un obiect ndarray pentru a fi folosit mai tarziu. Primele trei argumente descriu dimensiunea și tipul valorilor din matrice, iar ultimul argument este un pointer la un bloc de memorie contiguă ce ndarray-ul ar trebui să-l utilizeze ca buffer pentru a fi interpretate. Se returnează o referință la un ndarray, dar trebuie avut în vedere că ndarray nu își deține propriile datele. Atunci când este dealocat, pointer-ul nu este eliberat. Atâta timp cât ndarray este folosit, trebuie avut grijă ca memoria să nu fie eliberată. Pentru acest lucru este necesar să se incrementeze reference counter-ul.
+
+Modulul Python de Numpy oferă și acesta funcționalități importante. ndarrays pot fi indexate folosind sintaxa standard Python \textit{x[i]}, unde \textit{x} este o matrice și \textit{i} indexul. Există trei tipuri de indexare disponibile:
+\begin{itemize}
+  \item acces normal, explicit se alege numărul indexului.
+  \item basic slicing, are sintaxa de bază de forma \textit{i:j:k}, unde i reprezintă indexul de început, j desemnează ultimul index, iar k este dimensiunea incrementului. Acesta trebuie să fie diferit de 0. Pot exista și valori negative.
+  \item indexarea avansată este declanșată atunci când obiectul de selecție, \textit{i}, este un obiect secvență non-tuplă, un ndarray de tipul de date întreg sau boolean, sau o tuplă cu cel puțin un obiect de secvență. Există două tipuri de indexare avansate: întreg și boolean. Indexare matricei cu întregi permite selectarea elementelor arbitrare din matrice pe baza indicelui lor N. Fiecare matrice reprezintă un număr de indici în acea dimensiune. Indexare avansat apare atunci când \textit{i} este un obiect array de tipul boolean, poate fi returnat folosind operatori de comparare.
+\end{itemize} 
+
+Pachetul Numpy oferă o multitudine de funcții pentru operații cu array-uri. Cele mai importante sunt operațiile logice și cele aritmetice. Acestea sunt folosite în implementarea clasei \textit{PixelBuffer} pentru a realiza conversia valorilor de RGB.
+
+
+
+
+\section{Buffer-ul video}
+
+Protocolul de actualizare este bazat pe cerere client. Aceasta este o actualizare trimisă numai
+de la server la client ca răspuns la o cerere explicită din partea clientului. Asta dă protocolului o calitate adaptivă. Schimbările unei zone de framebuffer tind să se întâmple consecutiv. Cu un client sau
+de o rețea lentă, stările tranzitorii ale framebuffer-ului pot fi pierdute, rezultând în trafic mai mic de rețea și mai puține operații de desenare pentru client.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{pythonside}
+    \caption{\textit{Clasele din Python}}
+    \label{pyside}
+\end{figure}
+
+Pixelbuffer este o clasă special realizată în Python. Ea a fost gândită în așa fel încât să faciliteze comunicarea cu ajutorul protocolului Remote Framebuffer. Obiectele de tip PixelBuffer sunt utilizate în fiecare instanță de tip VNCViewer. În figura \ref{pyside} sunt detaliate aceste clase. Clasa VNCViewerSDK
+are în primul rând rolul de a apela metoda din extensie de inițializare a librăriei vncamt, făcând astfel disponibile funcțiile, și pe urmă un rol de management al viewerelor VNC. Acestea sunt abstractizare în clasa VNCViewer. Acest obiect conține metode care apelează biblioteca prin intermediul extensiei și descrie comportamentul callback-urilor din Python. Mai are atribute ce conțin informații despre el, dar cel mai important dintre ele este buffer-ul video. Instanța de PixelBuffer este inițializată în callback-ul de inițializare al SDK-ului. Aici sunt expuse opțiunile cu care a fost realizată conexiunea dintre clientul și serverul de VNC. Datele stocate sunt esențiale la interpretarea pachetelor primite de la server: lățimea și înălțimea ecranului în pixeli, valorile de maxim și cele de shift pentru roșu, verde, albastru, adâncimea, biți pe pixel.
+
+Atunci când are loc un update de buffer video, unul din cele trei callback-uri este apelat: ImageRectangle, CopyRectangle, FillRectangle. Au o funcționare similară, și anume toate notifică viewer-ul interesat despre poziția unde are loc modificarea și datele ce trebuie interpretare. În consecință clasa PixelBuffer are implementate trei metode pentru fiecare din acestea situații:
+
+\begin{itemize}
+  \item Funcția \textit{update\_rectangle()} primește două seturi de coordonate. Colțul din stânga sus și cel din dreapta jos al dreptunghiului ce trebuie actualizat. Folosind acestea PixelBuffer știe exact care este submatricea ce trebuie modificată. Informațiile despre pixelii ce trebuie modificați sunt deja transmiși din C sub formă de matrice, ceea ce ușurează o parte a funcționalității.
+  \item Spre deosebire de funcția anterioară, \textit{fill\_rectangle} primește o submatrice a cărui elemente reprezintă aceleași valori ale unui pixel.
+  \item \textit{copy\_rectangle()} este notificat despre coordonatele sursă și cele de destinație al unui dreptunghi. De exemplu, în cazul care o fereastră este mutată pe ecran.
+  \item Există o metodă bonus. Aceasta se numește \textit{resize\_screen()} și este apelată în momentul în care rezoluția monitorului remote se schimbă. Doar în acest caz buffer-ul este aruncat și înlocuit de unul care are noile dimensiuni de înălțime și lățime corespunzătoare
+\end{itemize}
+
+Aceste metode oferă o optimizare a operațiilor deoarece sunt actualizate doar zonele de interes al buffer-ului, nu se reface toată matricea de fiecare dată când există o modificare. Informațiile despre pixeli sunt stocate sub forma \ref{pixdata}.
+ 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.65\textwidth]{pixeldata}
+    \caption{\textit{Reprezentarea internă a datelor despre pixeli}}
+    \label{pixdata}
+\end{figure}
+
+Elementele matricei sunt pixelii de pe ecran. Formatul pixelilor este de fapt o reprezentare individuala a valorilor culorilor pixelului. În Python aceste valori sunt reținute sub forma unor tuple. Pentru a ajunge în aceasta stare ușor de interpretat de numpy pentru a fi mai apoi desenată imaginea. Cele mai comune formate sunt pe 16 biți. Pentru a extrage aceste valori din stream și pentru a le transforma este nevoie de un proces de conversie care PixelBuffer îl folosește.
+
+Mai jos se arată modul de calcul al valorilor culorilor pixelilor:
+\lstset{language=C,frame=single, showstringspaces=false}
+\begin{lstlisting}
+red = ((pixelData >> redShift) & redMax) * 255 / redMax
+red = red << 16
+  
+green = ((pixelData >> greenShift) & greenMax) * 255 / greenMax
+green = green << 8
+  
+blue = ((pixelData >> blueShift) & blueMax) * 255 / blueMax
+\end{lstlisting}
+
+Există mai multe tipuri de codificări și implicit mai multe metode de conversie. La momentul actual proiectul implementează doar această variantă. În cazul în care se decide că e necesară integrarea unei noi codificări, acest lucru se face destul de simplu urmărind arhitectura actuală și regulile de conversie alese.
+
+
+
+
+
+\section{Interfață utilizator}
+
+Pygame este un wrapper pentru librăria SDL, Simple DirectMedia Layer, dar mai conține câteva librării unice pentru programarea de jocuri. Pachetul are o structură proprie ce trebuie implementată. În primul rând este importat modulul în Python. 
+Pentru a inițializa Pygame se apelează metoda \textit{init()}. Trebuie setată o variabilă cu dimensiunile ferestrei, \textit{display.set\_mode()}. Mai departe se rulează programul în buclă până când primește un eveniment de terminare. La fiecare iterație sunt interceptate evenimentele pentru a fi tratate în consecință, iar variabila setată anterior este actualizată cu noile culori sau primitive grafice. Pentru a face vizibile aceste actualizări se apelează funcția \textit{display.flip()}. Mai departe se exemplifică arhitectura de bază:
+\lstset{language=Python,frame=single, showstringspaces=false}
+\begin{lstlisting}
+import pygame
+
+pygame.init()
+screen = pygame.display.set_mode((800, 400))
+
+runnig = True
+while running:
+  for event in pygame.event.get():
+    if event.type = pygame.QUIT:
+      running = False
+    # ...
+  screen.flip((255,0,0))
+  pygame.display.flip()      
+\end{lstlisting}
+
+
+Pachetul \textit{surfarray} din Pygame oferă funcții pentru a converti datele pixelilor din suprafețele pygame în matrice. Acest modul va fi funcțional doar atunci când pygame poate utiliza externe pachetele NumPy sau Numeric. Fiecare pixel este stocat ca o singură valoare întreagă pentru a reprezenta culorile roșu, verde și albastru. Pixeli cu adâncime mai mare pot utiliza un proces de împachetare pentru a plasa trei sau patru valori într-un singur număr. Matricele sunt indexate mai întâi de axa X, urmată de axa Y.
+
+Inițial se foloseau mai multe metode din acest modul. Dintr-un anume motiv, după ce se creează un surface din matricea existentă, acesta trebuie răsturnat și rotit la 90 de grade, înainte să fie actualizat surface-ul original. Pentru a evita două transformi consecutive ale surface-ului, sau ale matricii, s-a folosit metoda \textit{blit\_array()}. Aceasta primește ca parametru matricea, și actualizează direct surface-ul, fără a fi necesare transformările.
+
+
+
+
+
+
+
+
+
+%\section{lamda functions}
+
+%\section{Extindere}
+
+
+
+

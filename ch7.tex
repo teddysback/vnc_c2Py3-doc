@@ -1,0 +1,167 @@
+
+%\chapter{Tests and Results}
+\chapter{Teste și rezultate experimentale}
+\label{cap:rezultate}
+
+%Ponderea acestui capitol relativ la întreaga lucrare este de 5-10\%.
+%
+%Aici sunt prezentate metodele de validare a soluțiilor/sistemului descris în capitolele anterioare, scenariile de testare a corectitudinii funcționale, a utilizabilității, performanței etc.   
+%
+%Rezultatele testelor experimentale necesită, în general interpretări (dacă rezultatele obținute corespund așteptărilor, intuițiilor cititorului, de ce apar variații/excepții etc.) și comparații cu rezultatele altor metode similare. 
+%
+%Sistemele de testare și testele propriu-zise trebuie descrise detaliat astfel încât să poată fi reproduse și de alții care poate vor să-și compare soluțiile lor cu a voastră (eventual, codul testelor poate fi pus în anexe). Dacă se poate alegeți pentru evaluarea sistemului vostru benchmark-uri (pachete de testare) dedicate, astfel încât comparația cu alte sisteme să poată fi făcută mai ușor. În plus, astfel de teste sunt mult mai complete și mai realiste decât cele dezvoltate de voi. Oricum, încercați ca testele efectuate să nu fie triviale, ci să acopere scenarii cât mai reale, mai complexe și mai relevante ale funcționării sistemului vostru. 
+
+Testarea este un proces esențial în dezvoltarea de software. Scopul procesului de testare îl reprezintă izolarea și identificarea erorilor. Nu se poate garanta faptul că în urmă oricărui fel de examinări produsul o să fie lipsit de orice defect, dar cu siguranță se elimină o parte din greșelile sau neclaritățile cele mai evidente. Aceasta se datorează imposibilității de a utiliza produsul în toate combinațiile posibile, dar de multe ori este o cauză a încercărilor frecvente de automatizare de teste.
+
+În dezvoltarea acestui proiect s-au aplicat diverse metode. În primul, și probabil cel mai important, vorbim despre testarea manuală și exploratory testing. Acest tip de testare presupune interacțiunea cu produsul într-un mod care exercită imaginația. Necesită și o bună cunoaștere a soft-ului. Prin acest tip de testare nu doar verificăm funcționalitatea, ci practic simulam o interacțiune a unui utilizator normal care are ocazia să pună sub stres diverse elemente ale proiectului. Cele mai interesante bug-uri apar de cele mai multe ori în urma acestui tip de testare.
+
+De asemenea există și un tip de teste ce se numesc unit test. Acest tip de testare se referă la scrierea de test case-uri care verifică corectitudinea codului. O astfel de testare este o testare white box. Testerul are acces la codul sursă, și se folosește de diverse framework-uri pentru a apela funcțiile software-ului cu diverși parametrii de intrare, chiar și greșiți, pentru a compara ulterior rezultatul returnat cu rezultatul așteptat. Este o metodă bună pentru a acoperi cât mai mult cod și este foarte util din punct de vedere al vitezei. În scrierea acestui proiect nu am folosit foarte mult această metodă deoarece majoritatea funcțiilor sunt callback-uri apelate de librărie, care este opacă, iar cele scrise sunt prea triviale pentru a fi menționate.
+
+În continuare se vor prezenta două tipuri de testare aleasă pentru acest proiect: testarea funcțională și testarea de performanță. Am ales acest tip de teste deoarece reprezintă un interes mai mare.
+
+%\section{Functional Tests}
+\section{Teste de funcționalitate}
+%- c testam listele
+%- python testam callback-uri
+%	sunt apelate callback uri de init la init
+%	sunt apelate callback status la close cu status de eroare
+Testarea funcțională este un tip de testare black-box, în care testele sunt realizate pe baza specificațiilor. Nu trebuie confundat faptul ca s-au folosit cunoștințele despre clasele din Python cu testare white-box. Funcționalitatea care dorim să o verificăm este cea a modului scris în limbajul C și nu a funcțiilor ajutătoare utilizării modului scrise în limbajul Python.
+
+Testele au fost scrise integral in Python. Pentru a ușura scrierea testelor s-a folosit un modul numit unittest. Acesta este un framework focusat pe unit testing, insipat de JUnit, și are cam aceleași caracteristici care le au și framework-urile cunoscute din alte limbaje. Există și alte alternative mai puternice și mai versatile, cum ar fi Letuce sau Behave, dar am ales unittest deoarece are uneltele necesare de care am avut nevoie în scrierea acestor teste și nu necesită instalări adiționale deoarece vine impreună cu Python. 
+
+Scriptul de testare este unul extrem de simplu. În primă fază importa evident modulul unittest, declară clasele de test cu scenariile dorite, și apelează unittest.main(). Partea interesantă se regăsește în clasele de test. Aici am descris scenarii diverse. S-a oferit o lista de funcții de callback-uri custom, și s-a verificat faptul că acestea sunt apelate. În cazul în care callback-ul de credențiale oferă o parolă greșită, verificăm că nu s-a apelat callback-ul de inițializare și callback-ul de status a returnat un cod de eroare corespunzător cu scenariul. În cazul în care callback-ul de credențiale oferă o parolă corecta, verificăm că s-au apelat callback-urile specifice, iar în urma închiderii conexiunii, callback-ul de status a returnat un cod de eroare "Connection Closed".
+
+%\section{Performance Tests}
+\section{Teste de performanță}
+%- wireshark stuff
+%	standby
+%	4k
+
+Performance testing este un termen generic care se poate referi la mai multe tipuri de testare de performanță, fiecare adresându-se unui anumit tip de problemă. Sunt destinate pentru a determina capacitatea de reacție, debitul ,fiabilitatea și/sau scalabilitatea unui sistem în cadrul unui anumit volum de muncă. Acest tip de testare, indiferent cărui problemă se adresează, este important deoarece oferă o metrică asupra beneficiilor aduse sau nu în comparație cu produsele concurente.
+
+în primă fază această etapă a reprezentat o provocare deoarece nu pare să existe o metodă evidentă de a compara proiectul cu alte produse similare. Lucrarea \cite{perf} a oferit o ideea cum s-ar putea realiza această comparație, analizând traficul. Rezultatele s-au dovedit a fi foarte interesante. Pentru a identifica căile de comunicație s-a folosit Process Monitor, un tool de la Microsoft care oferă informații despre ip-urile sau porturile folosite de diverse aplicații. Pentru restul procesului de analiză s-a folosit Wireshark, un software dedicat monitorizării protocoalelor network. Folosind informațiile oferite de Process Monitor am creat filtre pentru a izola pachetele în Wireshark. S-au folosit următoarele calculatoare pentru aceste teste:
+
+Specificațiile calculatorului client:
+\begin{itemize}
+  \item DELL Optiplex 9020
+  \item Windows 8.1 Enterprise x64
+  \item Intel(R) Core(TM) i7-4790 CPU @ 3.60 GHz
+  \item memory 8.00 GB
+\end{itemize}
+
+Specificațiile primului calculator client:
+\begin{itemize}
+  \item HP EliteDesk 800
+  \item Windows 8.1 Pro x64
+  \item Intel(R) Core(TM) i7-4790 CPU @ 3.60 GHz
+  \item memory 4.00 GB
+\end{itemize}
+
+Specificațiile celui de al doilea calculator client:
+\begin{itemize}
+  \item HP EliteDesk 800
+  \item Windows 8.1 Pro x64
+  \item Intel(R) Core(TM) i5-4590 CPU @ 3.30 GHz
+  \item memory 4.00 GB
+\end{itemize}
+
+%%%%%%%%%%%%%%%% TABEL 1
+\begin{table}[t]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+                                &  wrapper 		 & RealVNC \\ \hline
+\textbf{Average pps}            & 17.8           & 6.2     \\ \hline
+\textbf{Average packet size, B} & 726.5          & 213.5   \\ \hline
+\textbf{Average bytes/s}        & 12 k           & 1331    \\ \hline
+\textbf{Average bits/s}         & 103 k          & 10 k    \\ \hline
+\end{tabular}
+\caption{Idle: wrapper vs RealVNC}
+\label{table:s1}
+\end{table}
+%%%%%%%%%%%%%% GRAFIC 1
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{s1}
+    \caption{Idle: wrapper(negru) vs RealVNC(roșu)}
+    \label{fig:s1}
+\end{figure}
+%%%%%%%%%%%%%%% TABEL 2
+\begin{table}[t]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+                                & wrapper & RDC 	\\ \hline
+\textbf{Average pps}            & 7.6	  & 3.5     \\ \hline
+\textbf{Average packet size, B} & 202.5   & 158.5	\\ \hline
+\textbf{Average bytes/s}        & 1549    & 552     \\ \hline
+\textbf{Average bits/s}         & 12 k    & 4420	\\ \hline
+\end{tabular}
+\caption{Idle: wrapper vs Remote Desktop Connection}
+\label{table:s2}
+\end{table}
+%%%%%%%%%%%%%% GRAFIC 2
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{s2}
+    \caption{Idle: wrapper(negru) vs RDC(albastru)}
+    \label{fig:s2}
+\end{figure}
+
+Primul scenariu de test a presupus conexiunea simultană la cele două calculatoare de test după ce au bootat, în timp ce sunt inactive. La un calculator conexiunea s-a realizat cu proiectul personal, iar la celălalt cu software-ul de la RealVNC. După cum reiese din tabel tabelul \ref{table:s1} RealVNC se descurcă mai bine. În prima jumătate a testului ferestrele au fost minimizate, iar în a doua au fost maximizate. S-a descoperit că RealVNC cel mai probabil are funcții care reduc traficul atunci când nu este necesar, lucru observabil în graficul \ref{fig:s1}. 
+
+Al doilea scenariu a reprodus scenariul anterior, de data asta comparând proiectul cu Remote Desktop Connection. Spre deosebire de RealVnc, Remote Desktop Connection deși se comportă mult mai bine, primește pachete în mod constant. Rezultatele \ref{table:s2} sunt vizibile foarte clar și în graficul \ref{fig:s2}.
+
+%%%%%%% TABEL 3
+\begin{table}[t]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+                                & wrapper   & RealVNC   \\ \hline
+\textbf{Average pps}            & 4536.3    & 1503.6    \\ \hline
+\textbf{Average packet size, B} & 828.5	    & 775.5     \\ \hline
+\textbf{Average bytes/s}        & 3757 k    & 1166 k	\\ \hline
+\textbf{Average bits/s}         & 30 M      & 9328 k  	\\ \hline
+\end{tabular}
+\caption{4k video stream: wrapper vs RealVNC}
+\label{table:s3}
+\end{table}
+%%%%%%%%%%% GRAFIC 3
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{s3}
+    \caption{4k video stream: wrapper(negru) vs RealVNC(roșu)}
+    \label{fig:s3}
+\end{figure}
+%%%%%%%%% TABEL 4
+\begin{table}[t]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+                                & wrapper & RDC    \\ \hline
+\textbf{Average pps}            & 1481.6  & 973.6  \\ \hline
+\textbf{Average packet size, B} & 780.5   & 735.5  \\ \hline
+\textbf{Average bytes/s}        & 1156 k  & 715 k  \\ \hline
+\textbf{Average bits/s}         & 9253 k  & 5727 k \\ \hline
+\end{tabular}
+\caption{4k video stream: wrapper vs Remote Desktop Connection}
+\label{table:s4}
+\end{table}
+%%%%%%%%%%% GRAFIC 4
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{s4}
+    \caption{4k video stream: wrapper(negru) vs RealVNC(albastru)}
+    \label{fig:s4}
+\end{figure}
+Mai departe s-au ales să se compare simultan aplicațiile în momentul în care sunt solicitate. Scenariul presupune rularea fullscreen a unui video 4k de pe YouTube folosind browser-ul Mozilla Firefox pentru o durată de un minut. Mai întâi s-a comparat proiectul cu RealVNC. Și de această dată, conform rezultatelor vizibile atât în tabelul \ref{table:s3} cât și în graficul\ref{fig:s3}, RealVNC s-a descurcat mai bine. La fel de bine s-a comportat și Remote Desktop Connection, dupa cum bine se poate observa în graficul\ref{fig:s4} și tabelul\ref{table:s4}.
+
+%%%%%% concluzii
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{scache}
+    \caption{Without caching: wrapper vs RealVNC}
+    \label{fig:cache}
+\end{figure}
+
+Graficul \ref{fig:cache} reprezintă unul din primele teste realizate între proiect și RealVNC. De această dată valorile sunt foarte apropiate. Cel mai probabil RealVNC are un sistem de caching care ajută într-un mod semnificativ. Am ales se prezint rezultatele anterioare deoarece, pe termen lung, acestea sunt mai concludente. Din punct de vedere al unui utilizator normal, atât proiectul de licență cât și RealVNC se comportă la fel, în timp ce Remote Desktop Connection reușește chiar să ofere o experientă mult mai fluidă.

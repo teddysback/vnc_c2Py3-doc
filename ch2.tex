@@ -1,0 +1,113 @@
+
+%\chapter{Project's Objectives and Specification}
+\chapter{Obiective și specificații}
+\label{cap:obiective-specificatii}
+
+%Acest capitol conține descrierea detaliată a temei de cercetare propriu-zise, formulată exact, cu obiective clare și specificații, pe 2-3 pagini și eventuale figuri explicative. Titlul nu e neapărat impus și, de asemenea, capitolul poate fi inclus ca subcapitol în Capitolul~\ref{cap:Introducere}, dacă se potrivește.
+%
+%Reprezintă cca. 5--10\% din lucrare.
+
+Așa cum am menționat și în capitolul anterior, unul din primele obiective a fost o temă de cercetare în scopul găsirii de tehnologii și funcționalități oferite de Intel AMT care se dovedesc utile în diverse aplicații. În urma acestor analize s-a hotărât un studiu mai amănunțit pe caracteristicile de KVM(Keyboard Video Mouse). SDK-ul de Intel AMT conține foarte multe exemple și biblioteci utile. Inițial s-a încercat realizarea unu proof of concept în limbajul C folosind librăria vncamt.dll. Acest mic proiect a avut ca scop principal familiarizarea cu librăria: documentație, arhitectură, structuri.
+
+După etapa de setup și configurare a mașinilor client folosite, s-a încercat utilizarea unor funcții elementare folosind modul default de desenare. Următorul pas a fost acela de realiza un viewer custom. Aceasta a fost o necesitate doar, pentru a demonstra ca toate callback-urile destinate actualizării buffer-ului video sunt implementate corect și în același timp funcționale.
+
+Mai departe s-a cerut realizarea unui wrapper în Python pentru această bibliotecă. S-a ales limbajul Python deoarece în acest limbaj se dorește scrierea unui sistem mai mare. Wrapper-ul reprezintă doar o componentă și trebuie să fie utilizabil în diverse scenarii. Acest proiect are ca scop principal furnizarea accesului remote la buffere video simultan, lucru care oferă o gamă foarte largă de posibilități.
+
+%\section{Objectives} 
+\section{Obiective}
+
+%Obiectivele proiectului sunt lucrurile care se dorește a fi realizate, ca urmare a abordării temei lucrării de licență. În general numărul de obiective este proporțional cu timpul de care dispunem. Exemple generice:
+%\begin{enumerate}
+%  \item Analiza critică a soluțiilor existente pentru problema abordată și identificarea posibile limitări ale acestora.
+%  \item Propunerea unor soluții la (o parte) din problemele identificate. 
+%  \item Implementarea soluției și validarea ei
+%  \item Identificarea unor teme de dezvoltare și cercetare ulterioare
+%  \item \dots
+%\end{enumerate}
+
+În această secțiune vom puncta ideile majore ale proiectului, inclusiv viitoare posibilități oferite de acestă soluție.
+Printre obiectivele inițiale și probabil și obiectivele viitoare, tema de cercetare include următoarele puncte generice:
+\begin{enumerate}
+  \item Analiza critică a soluțiilor existente și a posibilităților oferite de Intel AMT.
+  \item Control asupra opțiunilor din BIOS.
+  \item Bootare de pe orice sursă, MBR sau UEFI.
+  \item Capturare de video stream live.
+  \item Capturare de screenshot-uri,
+  \item Manipularea stării de alimentare: power on, shut down, sleep, reboot, hibernate.
+  \item Logare de informații low level.
+  \item Interogare de software / hardware.
+  \item Serial prin rețea.
+\end{enumerate}
+
+După ce s-a hotărât abordarea unei soluții în Python pentru realizarea unei conexiuni VNC, obiectivele au fost urmatoarele:
+\begin{enumerate}
+  \item Analiza soluțiilor existente și identificarea posibile limitări ale acestora.
+  \item Propunerea unor soluții la (o parte din) problemele identificate. 
+  \item Implementarea soluției și validarea ei.
+  \item Identificarea unor teme de dezvoltare și cercetare ulterioare.
+\end{enumerate}
+
+%\section{Project Specification} 
+\section{Specificații}
+În continuare se prezintă o descriere amplă despre caracteristicile proiectului de licență. Specificațiile tehnice ale soft-ului sunt o expunere a cerințelor funcționale și a cerințelor non-funcționale. Acestea au rolul de a pune bazele în privința a ceea ce se așteaptă de la proiect, cât și la ce nu se așteaptă.
+
+%\subsection{Functional Specification}
+\subsection{Specificații funcționale}
+
+%Aplicația realizată:
+%\begin{itemize}
+%  \item va face următoarele ...
+%  \item va oferi următoarea funcționalitate \dots
+%  \item va afișa o o interfață
+%  \item va fi bazată pe modelul \dots (client-server) 
+%  \item va fi implementată în C, Java etc.
+%  \item \dots
+%\end{itemize}
+Cerințele funcționale nu definesc felul în care se realizează implementarea. Ele descriu modul în care agenții vor interacționa cu produsul. De cele mai multe ori reprezintă un punct de plecare și îndrumare pentru programatori. Aceste cerințe sunt date de ceea ce se dorește să se obțină la finalul dezvoltării temei.
+
+Aplicația realizată:
+\begin{itemize}
+  \item va folosi librăria vncamt.dll
+  \item va fi implementată în Python
+  \item va afișa o interfață grafică, dar este flexibilă din acest punct de vedere
+  \item va expune o interfață simplă prin intermediul căruia componenta se poate integra ușor într-un proiect mai mare
+  \item va realiza conexiuni cu mai multe calculatoare simultan
+  \item va oferi posibilitatea de extindere a funcțiilor
+  \item oferă posibilitatea agenților să se conecteze la mașini folosind doar IP-ul de AMT
+  
+%  \item va implementa   
+%  \item va face următoarele ...
+%  \item va oferi următoarea funcționalitate \dots  
+%  \item va fi bazată pe modelul \dots (client-server) 
+\end{itemize}
+
+%\subsection{Non-Functional Specification}
+\subsection{Specificații non-funcționale}
+
+%Aplicația trebuie, de asemenea, să aibă următoarele caracteristici non-funcționale (exemple):
+%\begin{itemize}
+%  \item să aibă următoarea performanță
+%  \item să fie ușor/intuitiv de utilizat
+%  \item să fie adoptată pe scară largă 
+
+%  \item o extensie C pentru Python, deoarece modulul ctypes nu a fost suficient pentru a realiza wrapper-ul direct in Python
+%  \item \dots
+%\end{itemize}
+
+
+Majoritatea rezultă din constrângerile incluse în specificația cerințelor utilizatorilor. Cerințe de: performanță, interfață, de operare, de verificare, de portabilitate, de întreținere, de fiabilitate. Sunt atașate cerințelor funcționale.
+\begin{itemize}
+  \item Managementul erorilor:\\
+Această cerință are scopul de a ascunde eșecurile interne și de a preveni datele invalide introduse de către utilizator. Pentru realizarea cerinței s–a folosit afișarea de mesaje corespunzătoare pentru a–l avertiza pe user despre incorectitudinea datelor introduse.
+
+  \item Performanță:\\
+Se referă la memoria necesară pentru rulare și timpul de execuție necesar pentru finalizarea operației efectuate. Pentru o performanță cât mai ridicată s–au folosit librării care oferă soluții eficiente pentru operații cu tipuri de variabile mari.
+
+  \item Testabilitate:\\
+Reprezintă numărul de erori apărute în timpul rulării și modul în care a fost testată aplicația.
+Pentru a testa aplicația în timpul dezvoltării s–au folosit încercări manuale de decodificare a datelor primite. Pentru determinarea corectitudinii s-au făcut teste pe o imagine care există o singură culoare primară, de exemplu roșu. Astfel s–a putut compara cu tupla RGB decodificată din informația primită.
+
+  \item Utilizabilitate:\\
+Se referă la complexitatea utilizării aplicației din punct de vedere al interfeței  oferite de către modul.
+Pentru o complexitate cât mai scăzută s–a ales implementarea unei interfețe simple și sugestive astfel încât utilizatorul să nu întâmpine probleme în integrare.
+\end{itemize}

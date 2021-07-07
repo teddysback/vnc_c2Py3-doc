@@ -1,0 +1,176 @@
+
+%\chapter{Bibliographic Survey}
+\chapter{Studiu bibliografic}
+\label{cap:studiu-bibliografic}
+
+%Documentarea bibliografică are ca obiectiv fixarea referențialului în care se situează tema, prezentarea susrselor bibliografice utilizate și a cercetărilor similare și raportarea abordării din lucrare la acestea.
+%
+%Referințele bibliografice se vor face pentru fiecare carte, articol sau material folosit pentru elaborarea lucrării de licență. 
+%
+%Reprezintă cca. 10--15\% din lucrare. -> 5.5--8.5pg
+
+
+%\section{Related Work}
+\section{Abordări similare}
+
+%Comparați abordarea voastră cu cele ale altor soluții: ce e asemănător, ce e diferit (și, de preferat, mai bun). 
+%
+%Citarea referințelor se face ca în exemplele \ref{subsec:s10} din Bibliografie. 
+%Vezi citările următoare.
+%
+%În articolul \cite{Antoniou04} autorul descrie configurația tehnică a unei "honeynet" și prezintă câteva atacuri de actualitate asupra honeynet, precum și o serie de recomandări pentru securizarea sistemelor conectate la rețele de calculatoare.
+%
+%% În capitolul 4 al [], referitor la valoare honeypots, Spitzner prezintă avantajele și dezavantajele acestora.
+%
+%În articolul on-line \cite{electronic-citation} găsim detalii interesante despre \dots.
+
+La momentul actual există o multitudine de soluții software care oferă într-un fel sau altul acces la un calculator aflat la distanță. Deși scopul principal este același, găsim diferențe semnificante de la o aplicație la alta. Se pot distinge numeroase abordări, de la modul în care user-ul realizează conexiunea până la nivelul pachetelor de date și modul în care diverse protocoale aleg să realizeze această comunicare remote.
+
+În continuare sunt prezentate cele mai folosite soluții existente, reprezentative pentru protocolul implementat.
+
+
+\subsection{TeamViewer}
+%wiki si site oficial
+Unul din cele mai cunoscute produse existente pe piață este TeamViewer. Cu acesta vă puteți conecta la orice PC sau server din lume în câteva secunde. Este practic un pachet de programe care oferă diverse funcționalități adiționale pe lângă posibilitatea de partajare a desktop-ului: conferințe web și chiar transfer de fișiere între calculatoare. 
+
+Conexiunea se realizează în urma unei scurte instalări. Ambele calculatoare trebuie să ruleze aplicația. Când TeamViewer este pornit, generează o parolă și un ID. Conexiunea se poate realiza în ambele direcții: clientul local are nevoie de ID-ul și parola clientului remote pentru a avea acces asupra clientului remote, și invers.
+
+%http://stackoverflow.com/questions/9498877/how-is-teamviewer-so-fast
+La baza TeamViewer implementează Real-Time Transport Protocol, folosit pentru transferul audio și video%[]wikiRTP.
+Este cel mai des utilizat pentru streaming: telefonie, conferințe video, servicii de televiziune. Este doar unul din secretele acestui software extrem de rapid. Este preferat de cei care au nevoie să lucreze la distanță într-un mod cât mai eficient. Protocolul folosit de proiectul nostru, Virtual Network Computing(VNC), este unul bazat pe pixeli. %wiki realvnc
+Deși este mai puțin eficient în comparație cu protocoalele ce trimit modificările primitivelor grafice sau comenzi high-level într-un format simplu(ex: open window), VNC este mai flexibil și poate să afișeze orice tip de desktop.
+
+\subsection{Remote Desktop Connection}
+Remote Desktop Connection este o aplicație client a RDS. Oferă unui utilizator posibilitatea să se logheze remote la un calculator aflat în rețea, ce rulează serviciul de server. Această soluție folosește Remote Desktop Protocol(RDP), un protocol de proprietate dezvoltat de Microsoft. Prin convenție, acesta folosește portul TCP 3389 ți portul UDP 3389.%wiki RDP si RDC 
+Există clienți pentru diverse versiuni de Microsoft Windows, pentru Windows Mobile, Linux, Unix, iOS, Android și alte sisteme de operare.
+
+Deși este rapid și acoperă o gamă largă de platforme, acest protocol este privat. Obiectivul acestui proiect, așa cum a fost menționat și în capitolul anterior, este să aibă acces complet la buffer-ul video. 
+
+\subsection{RealVNC}
+%translate from wiki-- https://en.wikipedia.org/wiki/RealVNC
+RealVNC este o companie care oferă un produs software pentru acces remote. Programul constă într-o aplicație client-server destinată să controleze  un alt calculator de la distanță folosind protocolul Virtual Network Computing(VNC). Acesta poate rula pe diverse sisteme de operare, cum ar fi: Windows, Mac, mai multe distribuții de Unix. În același timp, clienții pot rula pe diverse platforme: Java, device-uri Apple și Android. Singurul client exclusiv Windows este cel inclus în VNC Viewer Plus, conceput pentru a interfața cu serverul încorporat pe chipset-urile Intel AMT ce se găsesc pe plăcile de bază Intel vPro.
+
+Acest produs este cel mai similar cu proiectul deoarece folosim aceeași librărie pentru a realiza comunicarea prin intermediul Intel AMT. Este folosit protocolul Remote FrameBuffer(RFB). Conexiunea se realizează în mod implicit pe portul TCP 5900. Spre deosebire de RealVNC, în momentul de față proiectul nu oferă o gamă atât de variată de implementări încât să poată suporta toate feature-urile sau platformele care le oferă RealVNC, dar având în vedere că nici nu este nevoie în momentul de față să avem aceste opțiuni, nu reprezintă o problemă. 
+În schimb soluția propusă de noi oferă posibilitatea conectării la mai multe viewere în același moment. Restul funcționalităților se pot adăuga pe parcurs.
+
+
+%\section{Technologies and Methods}
+\section{Tehnici/Tehnologii/Surse folosite}
+
+%Sursele de documentare referitoare la metodele, tehnologiile, ideile folosite. 
+
+Capitolul 2 din \cite{carte-amt} menționează că administrarea, ca o disciplină unica, a evoluat istoric din nevoia tot mai mare de a configura și menține sistemele informatice , aplicațiile , precum și utilizarea rețelelor . Utilizarea de instrumente de administrare la distanță a devenit importantă. Acest lucru a condus la dezvoltarea de mai multe protocoale pentru administrarea de la distanță. Industria a început să lucreze la standarde interoperabile care permit sistemelor mai multor producători să fie gestionate remote cu instrumente comune.
+
+\subsection{Intel vPro}
+
+Resursa \cite{site:intel-vpro} prezintă Intel vPro tehnology ca o colecție de înaltă performanță, eficientă din punct de vedere energetic, precum și capabilități robuste de management care permit profesioniștilor să monitorizeze, să gestioneze, și să repare calculatoare de la distanță, indiferent de starea sistemului de operare sau de starea de alimentare a calculatorului. Aceleași tehnici care au fost folosite pentru a reduce costurile de proprietate și consumului de energie, precum și pentru a crește fiabilitatea și securitatea serverelor mari, sunt construite în platforme cu tehnologia Intel vPro.
+
+Hardware-ul sistemului poate lua parte la autentificare prin rețea, chiar înainte de pornirea sistemului de operare, permițând administratorului să aibă acces în orice moment.
+
+
+\subsection{Intel Active Management Technology}
+
+Aplicațiile software care folosesc Intel AMT  \cite{site:intel-amt} sunt o altă parte importantă a gestionării platformelor cu tehnologia Intel vPro. Capacitățile Intel vPro Technology sunt expuse utilizează interfețe bazate pe standarde care să permită interoperabilitatea ușor și integrarea cu o varietate largă de soluții de administrare și de securitate.
+
+Intel Active Management Technology este o componentă majoră a platformei Intel vPro ce o diferențiază de alte platforme. În continuare vom prezenta  caracteristicile cheie. 
+Intel AMT oferă o serie de caracteristici care permit descoperirea, vindecare, și protejarea platformei și a resurselor. Aceste capacități pot fi accesate cu ajutorul interfețe locale sau de rețea într-o manieră sigură.
+
+Hardware-ul de Intel AMT, așa cum este ilustrat și în figura \ref{amt} este format din chipset-ul Intel , care include controlerul de rețea Ethernet, cipul comunicare wirelss, memorie flash nevolatilă pentru codul și stocarea datelor, precum și legăturile de comunicare. Firware conține mediu runtime, kernel, drivere, și servicii firmware.
+
+%%%%%%%%%%%%%% ARHITECTURA AMT
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{amt}
+    \caption{High Level View of Intel AMT components}
+    \label{amt}
+\end{figure}
+
+Niciuna dintre caracteristicile Intel Active Management Technology nu ar fi de folos, dacă acestea nu ar putea fi combinate pentru a rezolva probleme din lumea reală. În capitolul 6 din cartea \cite{carte-amt} este prezentat un set de scenarii reale și cum caracteristicile Intel AMT pot fi utilizate pentru a le rezolva. Este de asemenea important de reținut faptul că în cele mai multe din aceste scenarii, soluțiile software pot să nu funcționeze deloc sau nu rezolvă problema la fel de eficient.
+
+%final
+Intel AMT trebuie să lucreze cu infrastructurile de întreprindere existente, la fel ca mai multe dintre platformele Intel vPro, ce sunt folosite într-un mediu IT dotat standard. Pentru a facilita această integrare, Intel AMT oferă o serie de capabilități pentru a face integrarea în medii enterprise simplă. Cele mai multe dintre aceste componente nu sunt necesare în medii mai mici. Intel AMT SDK conține documentația pentru interfațarea cu Intel AMT, împreună cu bibliotecile necesare, și oferă de asemenea codul sursă al unor exemple.
+
+
+\subsection{Virtual Network Computing}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{vnc}
+    \caption{Sistem VNC}
+    \label{vnc}
+\end{figure}
+
+
+Intel a făcut un lucru semnificativ prin colaborare cu furnizori independenți de software. RealVNC este o companie care oferă o soluție de acces de la distanță. Software-ul constă dintr-o aplicație server și client pentru protocolul Virtual Network Computing pentru a controla ecranul altui calculator remote. 
+
+Principiile VNC, evidențiate în articolul \cite{vnc} și în figura \ref{vnc}, sunt menționate în \cite{vnc-guide} după cum urmează:
+
+\begin{itemize} 
+  \item Serverul VNC este programul care împărtășește ecranul său. Serverul permite pasiv clientului să preia controlul asupra acestuia.
+  \item Clientul VNC, sau telespectatorul, este programul care vede, controlează, și interacționează cu serverul. Clientul controlează serverul.
+  \item Protocolul VNC, protocol Remote Framebuffer(RFB), este foarte simplu, bazat pe primitive grafice de la server la client (Pune un dreptunghi de datele de pixeli la poziția specificată \cite{rfb}) și mesajele de eveniment de la client la server.
+\end{itemize}
+
+În interiorul Intel ME, figura \ref{real-vnc}, se găsește un server ce permite RealVNC să vadă de la distanță ceea ce se întâmplă pe ecranul computerului și de a controla mouse-ul și tastatura. VNC este un standard pentru portul 5900, pe care datele sunt transmise fără nici o prelucrare. Standardul de VNC nu implică criptare. 
+
+VNC are unele limitări în protocolul care îl folosește. RFB funcționează prin transmiterea dreptunghiurilor de pixeli într-o rețea. Cu cât rezoluția și adâncimea de biți este mai mare cu atât este necesară o lățimea de bandă mai mare pentru a trimite actualizări. Există câteva optimizări VNC servere / clienți deja făcute: trimite numai regiunile modificate, regiunile neschimbate rămân stocate în cache-ul clientului.
+
+%http://vpro.by/intel-amt-kvm-vnutrennee-ustroystvo-i-nastroyka
+\begin{figure}
+    \centering
+    \includegraphics[width=0.85\textwidth]{real_vnc}
+    \caption{RealVNC și IntelME}
+    \label{real-vnc}
+\end{figure}
+
+\subsection{Keyboard Video Mouse}
+
+Un switch KVM este un dispozitiv hardware care permite unui utilizator să controleze mai multe computere de la una sau mai multe seturi de tastaturi, monitoare video, și mouse-uri. Deși mai multe computere sunt conectate la KVM, de obicei un număr mai mic de calculatoare pot fi controlate la un moment dat. Dispozitivele moderne au adăugat posibilitatea de a partaja alte periferice cum ar fi dispozitive USB și audio.
+
+Dispozitive de partajare KVM în comparație cu KVM switch sunt invers; adică un singur PC poate fi conectat la mai multe monitoare, tastaturi, și mouse-uri. Deși nu la fel de comune, această configurație este utilă atunci când operatorul dorește să acceseze un singur calculator de la două sau mai multe locații - de exemplu, un birou acasă cu un computer.
+
+Suportul KVM de la Intel AMT a venit de la o versiune Intel AMT 6. Este un server built-in Intel ME RealVNC. Acest produs thid-party, disponibil în Intel ME 6.x și versiuni mai noi, permite oricărui client VNC compatibil să gestioneze computere bazate pe AMT. Un server RealVNC, aflat în arhitectura AMT este folosit pentru conexiunea la porturi pentru a oferi acces KVM Intel AMT.
+
+\subsection{Remote Framebuffer}
+
+Virtual Network Computing este un sistem grafic de partajare desktop care utilizează protocolul Remote Framebuffer pentru a controla de la distanță alt calculator. Acesta transmite  evenimente de tastatură și mouse de la un computer la altul, de actualizare de ecran înapoi în cealaltă direcție, printr-o rețea. 
+
+RealVNC utilizează protocolul RFB, figura \ref{rfb-protocol}. Aceasta funcționează implicit pe portul TCP 5900. Când se face o conexiune prin Internet, utilizatorul trebuie să se deschidă acest port în firewall. Ca alternativă, VNC poate prin SSH  să stabilească o conexiune, evitând deschiderea porturilor suplimentare. De asemenea SSH oferă  posibilitatea de criptare a conexiunii dintre serverul VNC și client.
+
+În \cite{wiki:vnc} se menționează ca RFB nu este în mod implicit un protocol securizat. În timp ce parolele nu sunt expuse, o tentativă de cracking s-ar putea dovedi de succes dacă ambele, cheia de criptare și parola codificată, sunt furate dintr-o rețea. Din acest motiv se recomandă să se utilizeze o parolă de cel puțin 8 caractere. Pe de altă parte, există o limită de 8 caractere pe unele versiuni ale VNC; în cazul în care se trimite o parolă de peste 8 caractere, caracterele în plus sunt eliminate și șirul trunchiat este comparat cu parola.
+
+În cazul în care un client se deconectează de la un server dat și se reconectează ulterior la același server, starea este păstrată. Mai mult decât atât, un client diferit poate fi utilizat pentru a se conecta la același
+server de RFB. Utilizatorul va vedea exact aceeași interfață grafică ca utilizatorul inițial. Astfel, interfața la aplicațiile utilizatorului devine complet mobilă. Ori de câte ori există o conexiune de rețea adecvată, utilizator își poate accesa propriile aplicații personale, iar starea acestor aplicații este
+conservată între accese din diferite locații. 
+
+%rfb protocol
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{rfb_prot}
+    \caption{Remote Framebuffer Protocol}
+    \label{rfb-protocol}
+\end{figure}
+
+Inputul protocolului se bazează pe un model de workstation standard: tastatură
+și dispozitiv de indicare cu mai multe butoane(exemplu mouse). Evenimentele de intrare sunt pur și simplu trimise la server de către client ori de câte ori utilizatorul apasă un buton sau ori de câte ori se modifică poziția pointerul dispozitivului. Aceste evenimente de intrare pot fi, de asemenea, primite de la alte dispozitive de intrare / ieșire non-standard. De exemplu ,un motor recunoașterea scrisului de mână pe bază de stilou, ar putea genera evenimente tastatură.
+
+
+\subsection{Librăria vncamt}
+
+VNC de fapt se comportă mai bine în comparație cu alte protocoale și funcționează pe aproape orice platformă.\\
+
+Biblioteca de vizualizare expune un API de C. Este un DLL closed-source furnizat de RealVNC, implementarea unui viewer utilizând protocolul RFB 4.0. Această bibliotecă acceptă numai RFB pe bază de autentificare prin parolă. DLL suportă afișarea grafică în oricare dintre cele două metode:
+
+\begin{itemize}
+  \item Graficile sunt realizate de către viewer într-o fereastră separată în mod implicit.
+  \item Graficile sunt realizate de către aplicația apelantă în propria fereastră GUI. Aplicația comunică cu biblioteca prin intermediul callback-urilor, primește informațiile pixelilor de la platforma remote, și să deseneze în propria fereastră, pe baza informațiilor despre pixeli.
+\end{itemize}
+
+Layer-ul de transport stabilește o conexiune TCP cu serverul KVM prin intermediul unei adrese IP și portului. Conexiunea poate fi realizată prin utilizarea proxy KVM.\\
+
+În \cite{amt-sdk} se menționează că SDK-ul este limitat la un singur vizualizator  VNC ce poate exista în condiții de siguranță, fiecare cu procesul său. Nu trebuie încercată crearea unui al doilea vizualizator VNC în cadrul aceluiași proces, fără ca anterior să fi distrus prima instanță. Există posibilitatea de a porni și opri un singur vizualizator VNC de mai multe ori, de exemplu, pentru a încerca să se reconecteze la același server după ce o parolă a fost introdusă greșit.
+
+În \cite{realvnc-sdk} se prezintă toată librăria și conține instrucțiuni de folosire.  Există două moduri de a folosi SDK-ul. Cel mai simplu mod este de a permite desenarea să se realizeze într-o fereastră desktop. Această fereastră afișează conținutul desktop al serverului VNC și folosește tastatură și mouse-ul pentru a genera evenimente de intrare pentru server. Utilizând fereastra desktop implicită necesită foarte puțin cod, dar nu oferă aproape nicio capacitate asupra interfeței utilizatorul. Nu este posibilă adăugarea unui meniu sau bară de instrumente la fereastra desktop.
+
+Dacă nu doriți să utilizați fereastra desktop implicită, vă puteți înregistra callback-urile, astfel încât SDK vă poate anunța când s-au făcut modificări la server. Acum aplicația trebuie să deseneze buffer-ul video al serverului. De asemenea, SDK-ul nu poate colecta evenimente de intrare de la tastatură și mouse, așa că va trebui să fie interceptate și furnizate și acestea. Cu toate acestea, va oferi libertatea de a implementa și integra un viewer VNC în aproape orice aplicație, precum și pentru a adăuga orice caracteristici interfeței utilizatorilor.
+

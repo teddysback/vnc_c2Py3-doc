@@ -1,0 +1,193 @@
+%\chapter{Theoretical Backgound}
+\chapter{Fundamente teoretice}
+\label{cap:fund-teoretice}
+
+%Aici se descriu pe scurt aspecte teoretice pe care se bazează lucrarea. Conținutul acestui capitol trebuie gândit pentru un citor care nu e specializat pe domeniul temei și nu cunoaște chestiunile de bază despre subiect. Pentru un cititor specializat, capitolul poate să stabilească un limbaj comun, relativ la termenii care pot fi interpretați diferit. 
+%
+%Acest capitol nu trebuie gândit și scris nici ca un copy-paste din alte surse, nici ca zona de reglaj a numărului de pagini ale lucrării. Deși va conține chestiuni pe care le-ați studiat și voi și pe care v-ați bazat, el trebuie să fie o compilare a surselor folosite, care să aibă sens și relevanță pentru lucrarea voastră. Trebuie să fie o descriere coerentă și logică a unor aspecte care ușurează sau fac posibilă înțelegerea părților următoare ale lucrării. Nu trebuie intrat insă prea mult în detalii, ci spuse doar chestiunile esențiale. 
+%
+%Dacă preluați text, figuri, tabela etc. din sursele de documentare, acestea din urmă trebuie indicate explicit. 
+%
+%Reprezintă cca. 10--15\% din lucrare. --> 5.5--8.25pg
+
+\section{Protocolul Remote Framebuffer}
+Așa cum se menționeză în \cite{rfb}, Remote Framebuffer este un protocol simplu pentru accesul de la distanță la interfața grafică a utilizatorului. Deoarece funcționează la nivelul framebuffer este aplicabil tuturor sistemelor și aplicațiilor, inclusiv Windows și Macintosh. RFB este
+protocolul utilizat în Virtual Network Computing.
+
+La prima vedere acest protocol pare să folosească o modalitate ineficientă de a desena mai multe componente grafice. Cu toate acestea, permițând codificări diferite pentru datele pixelilor, ne oferă un grad mare de flexibilitate, viteza de desenare a clientului și viteza de procesare a serverului.
+
+O secvență de dreptunghiuri constituie o actualizare framebuffer. O actualizare reprezintă o schimbare de la o stare valabilă la alta a framebuffer-ului; în unele moduri este similar cu un cadru de film. 
+
+\subsection{Codificare}
+Interacțiunea inițială între client și serverul RFB implică o negociere a formatului și codificarea cu care vor fi trimise datele de pixeli. Această negociere a fost conceput pentru a face munca clientului cât mai ușoră. Ideea este că serverul trebuie să fie întotdeauna în măsură să furnizeze datele de pixeli în forma în care clientul dorește. Cu toate acestea, dacă clientul este capabil să facă față în mod egal cu mai multe formate sau codificări diferite, se poate alege una care este mai ușor pentru server. Tipurile de codificare definite în prezent sunt Raw, CopyRect , RRE , Hextile și ZRLE.
+
+Formatul în pixeli se referă la reprezentarea culorilor individuale folosind valorile pixelilor. Cele mai comune formate pixel sunt de 24 de biți sau 16 biți " true color ". Există doua metode: ori valoarea pixelilor se traduce direct în intensități de culoare roșie, verde și albastră, ori se folosește un color map ce poate fi utilizat să traducă din valorile pixelilor în intensități RGB.
+
+\subsection{Transmiterea de mesaje}
+Tipul PIXEL reprezintă o valoare de a bytesPerPixel octeți, unde 8 x bytesPerPixel este numărul de biți pe pixel, așa cum a fost convenit de către client și server, fie în mesajul ServerInit sau în mesajul SetPixelFormat.
+
+Odată ce clientul și serverul sunt siguri că o să vorbească unul cu altul, protocolul trece la faza de inițializare. Clientul trimite un mesaj ClientInit urmat de către serverul de trimiterea unui mesaj ServerInit.
+
+După primirea mesajului ClientInit, serverul transmite un mesaj ServerInit. Acesta spune clientul lățimea și înălțimea buffer-ului serverului, formatul său de pixeli și numele desktop-ului asociat. Formatul pixel este prezentat în figura \ref{pixell}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{pixel}
+    \caption{Pixel Format}
+    \label{pixell}
+\end{figure}
+
+\subsection{Actualizare Framebuffer}
+Notifică serverul că un client este interesat de zona de framebuffer specificat de  poziția x, y, lățime și înălțime. Serverul de obicei raspunde la un FramebufferUpdateRequest prin trimiterea unei FramebufferUpdate. Un singur FramebufferUpdate poate fi trimis ca răspuns la mai multe FramebufferUpdateRequests.
+
+Serverul presupune că clientul păstrează o copie a tuturor părților frame buffer-ului. Acest lucru înseamnă că, în mod normal serverul are nevoie doar să trimită actualizări elementare clientului.
+
+În cazul în care clientul nu a pierdut nici un conținut, atunci trimite un FramebufferUpdateRequest cu un set incremental diferit de zero(true). Dacă și când au loc schimbări Atunci când vor exista schimbări ale frame buffer-ului, serverul va trimite un FramebufferUpdate. Între FramebufferUpdateRequest
+și FramebufferUpdate există o perioadă nedeterminată de timp.
+
+Un update de framebuffer constă dintr-o secvență de dreptunghiuri, ca în figura \ref{fbu}, de date de pixel care clientul ar trebui să le pună în framebuffer-ul său. Acesta este trimis ca răspuns la FramebufferUpdateRequest din partea clientului. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{fbu}
+    \caption{Update frame buffer }
+    \label{fbu}
+\end{figure}	
+
+Aceasta este urmată de un număr de dreptunghiuri ce conțin date despre pixeli în forma \textit{numberOfRectangles}, visibil în \ref{nr}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{nr}
+    \caption{\textit{numberOfRectangles}}
+    \label{nr}
+\end{figure}	
+
+\subsection{Raw Pixel Data}
+
+Cel mai simplu tip de codificare este raw pixel data. În acest caz, datele constau din înălțimea x lățimea pixelilor, unde lățimea și înălțimea sunt cele ale dreptunghiului. Valorile reprezintă pur și simplu fiecare pixel, în ordine de la stânga la dreapta precum scanline. Toți clienții RFB trebuie să fie capabil să decodifice datele de pixeli în acest sistem de codare raw pixel data, iar serverele RFB ar trebui să producă numai codare raw, cu excepția cazului în care clientul solicită în mod special pentru un alt
+tip de codare.
+
+
+
+\section{Tehnologii}
+
+
+%\subsection{Librăria RealVNC: vncamt.dll}
+
+\subsection{Numpy}
+
+Extensiile Python sunt deosebit de simplu de înțeles, deoarece toate au o structură foarte asemănătoare. Desigur, NumPy nu este o extensie banală în Python, și poate lua un pic mai mult de înțeles. NumPy oferă un API de C pentru a permite utilizatorilor să extindă sistemul și să obțină accesul la obiect matrice pentru a fi utilizate în alte rutine. NumPy este pachetul fundamental pentru calcul științific în Python. Acesta conține, printre altele :
+
+\begin{itemize}
+  \item un obiect matrice puternic N -dimensionale
+  \item funcții(de broadcasting) sofisticate
+  \item instrumente pentru integrarea C / C ++ și codul Fortran
+  \item algebra liniară, transformări Fourier, și capabilități de generare numere aleatoare
+\end{itemize}
+
+Pe lângă utilizările sale evidente științifice, NumPy poate fi utilizat și ca un eficient container multidimensional a datelor generice. Pot fi definite tipuri de date arbitrare. Acest lucru permite integrarea NumPy perfect și rapid.
+
+Așa cum este specificat în capitolul \textit{Python Types and C-Structures} din \cite{numpy}, tipurile Python sunt echivalentul funcțional în C al clase în Python. Construirea unui nou tip Python pune la dispoziție un nou obiect de Python. Obiectul ndarray este un exemplu de un tip nou definit în C. Tipurile noi sunt definite în C prin două etape de bază:
+\begin{enumerate}
+  \item Crearea unei structuri C, numită de obicei Py{Nume}Object, care este compatibilă cu structura PyObject, dar deține și informațiile suplimentare necesare acestui obiect;
+  \item Popularea tabelului PyTypeObject cu pointeri la funcțiile care implementează comportamentul dorit pentru acest tip.
+\end{enumerate} 
+
+Este posibil să se creeze array-uri multidimensionale în NumPy. Desigur, array-urile nu sunt limitate la o singură dimensiune în NumPy. Ele sunt de dimensiuni arbitrare. Noi le crea prin formarea de liste,sau tuple, imbricate. Asignarea și accesarea elementelor unei matrice este similar cu alte tipuri de date secvențiale din Python, adică liste și tupluri. Avem mai multe opțiuni pentru indexare, ceea ce face ca indexarea în NumPy este o caracteristică foarte puternică și similare core Python.
+
+
+\subsection{Pygame}
+
+Pygame este un set de module Python de cross-platform concepute pentru scrierea de jocuri video. Acesta include grafica pe calculator și biblioteci de sunet concepute pentru a fi utilizate cu limbajul de programare Python. Acesta este construit peste biblioteca Simple Directmedia Layer, cu intenția de a permite în timp real dezvoltare de joc pe calculator fără mecanica de nivel scăzut a limbajului de programare C și a derivatelor sale. Se bazează pe presupunerea că cele mai costisitoare funcții din interiorul jocurilor pot fi separate de logica de joc, ceea ce face posibil să se utilizeze un limbaj de programare de nivel înalt, cum ar fi Python.
+
+Pygame a fost construit pentru a înlocui PySDL după ce dezvoltarea acestuia a stagnat. Pygame fost scris inițial de Pete Shinners și este distribuit sub licența open source free software publică GNU. Acesta a fost un proiect comun începând din 2004 sau 2005. PySDL2 este un wrapper al bibliotecii SDL2 și este similară cu proiectul întrerupt PySDL.
+
+Pygame și SDL sunt un engine de C excelent pentru jocuri 2D. Cea mai mare parte a execuției se petrece in interiorul SDL. SDL pot profita de accelerarea grafică hardware. Permițând acest lucru un joc poate rula în jurul valorii de 200 de cadre pe secundă(fps) în loc de 40 de cadre pe secundă
+
+Acest modul, surfacearray, pygame poate utiliza pachetele externe de tip NumPy sau pachete Numeric. Conține funcții pentru conversia datele pixelilor din suprafețele pygame în matrice, și invers.
+
+Fiecare pixel este stocat ca o singură valoare întreagă pentru a reprezenta culorile roșu, verde și albastru. Imaginile 8 bit utilizează o valoare care apare într-un colormap. Pixeli cu adâncime mai mare utilizează un proces de împachetare pentru a plasa trei sau patru valori într-un singur număr.
+
+Matricele sunt indexate pe axa X, urmată de axa Y. Matricea care tratează pixelii ca un singur număr întreg sunt denumite array-uri 2D. Acest modul poate separa valorile de culoare roșie, verde și albastru în indici separați. Aceste tipuri de matrice sunt denumite array-uri 3D, iar ultimul indice este 0 pentru roșu, 1 pentru verde și 2 pentru albastru.
+
+\subsection{Python C Api}
+
+Api-ul este coloana vertebrală a interpretorului standard Python, altfel cunoscut ca CPython. Folosind acest API este posibil să se scrie modulul de extensie Python în C și C ++. Evident, aceste module de extensie pot să apeleze orice funcție scrisă în C sau C ++.La fel și NumPy vine cu o extensie implementată în C. Acest API poate fi folosit pentru a crea și manipula matrice NumPy din C, atunci când scriem extensii C. 
+
+Printre avantaje se numără urmatoarele: nu necesită biblioteci suplimentare, o control low level, în întregime utilizabil în C ++. Dar are și dezavantaje:
+poate necesita o cantitate substanțială de efort, trebuie să fie compilate, cost ridicat de întreținere, nu are forward compatibility datorită modificărilor de API C, bug-urile de numărare de referință sunt ușor de creat și foarte greu de găsit.
+
+Există două motive fundamentale pentru utilizarea API-ului Python / C. Primul motiv este de a scrie module de extensie pentru scopuri specifice; acestea sunt module C, care extind interpretorul Python. Aceasta este probabil cel mai comună utilizare. Al doilea motiv este de a folosi Python ca o componentă într-o aplicație mai mare; această tehnică este în general referită ca încorporarea Python într-o aplicație.
+
+Cele mai multe funcții ale API-ului au una sau mai multe argumente, precum și o valoare returnată, de tip \textit{PyObject *}. Acest tip este un pointer la un tip de date opac și reprezintă un obiect Python arbitrar. Toate obiectele Python, chiar întregi Python, au un tip și un număr de referință. Tipul unui obiect determină ce fel de obiect este.
+
+Există câteva alte tipuri de date care joacă un rol important în API. Cele mai multe sunt tipuri simple de C, cum ar fi \textit{int}, \textit{long}, \textit{double} și \textit{char}. Câteva tipuri de structuri sunt utilizate pentru a descrie tabelele statice, utilizate pentru a lista funcțiile exportate de un modul sau atributele date ale unui nou tip de obiect. Alt tip de structură este folosit pentru a descrie valoarea unui număr complex.
+
+Alte modalități de a interfața cod C cu Python: 
+
+\begin{enumerate}
+  \item Modulul \textbf{Ctypes} din Python este probabil cel mai simplu mod de a apela funcțiile C din Python. Modulul ctypes oferă tipuri de date compatibile cu limbajul C și funcții pentru a încărca DLL-uri, astfel încât apelarea metodelor poate fi făcută pentru bibliotecilor C, fără a fi nevoie să le modifice. Faptul că partea de C nu trebuie atinsă, adaugă la simplitatea acestei metode. Acesta poate fi folosit pentru a crea un wrapper peste biblioteci, exclusiv în Python.
+
+  \item Simplified Wrapper and Interface Generator(\textbf{SWIG}) este un alt mod de a interfața cod C în Python. În această metodă, dezvoltatorul trebuie să dezvolte un fișier de interfață în plus, care este o intrare pentru SWIG. Dezvoltatorii python în general nu folosesc această metodă deoarece este în cele mai multe cazuri inutil de complexă. Aceasta este o metodă buna atunci când vrem să interfațăm cod C / C ++ cu mai multe limbi diferite.
+  
+Cel mai important lucru cu SWIG este că poate genera automat codul wrapper-ului. În timp ce acesta este un avantaj în ceea ce privește timpul de dezvoltare, poate fi de asemenea o povară. Fișierul generat tinde să fie destul de mare. iar nivelurile multiple de indirectare care sunt un rezultat al procesului de wraping, îl pot face dificil de înțeles.
+
+  \item \textbf{Cython} este atât un limbaj asemanător Python pentru scrierea de extensii C cât și un compilator avansat. Limbajul Cython este un superset al Python, care vine cu construcții suplimentare ce permit apelul de funcții C, și adnotează variabile de clasă și atribute cu tipuri C. În acest sens îl putem numi un Python cu tipuri.
+  
+În timp ce alte soluții care auto generează cod pot fi destul de dificil de depanat, de exemplu SWIG, Cython vine cu o extensie pentru debugger GNU care ajută la depanarea Python, Cython și C.
+\end{enumerate}
+
+
+În \cite{} se oferă principalele motive pentru care se foloseste API-ul de C: viteză, C este de aproximativ 50 de ori mai rapid decât Python; bibliotecile C funcționează foarte bine, astfel încât nu se dorește rescrierea lor în Python; acces la anumite resurse de nivel scăzut.
+
+După cum se poate vedea în \cite{capi}, o extensie Python C ce folosește API-ul trebuie să includă \textit{Python.h}. Această metodă pare complexă la început, dar odată înțeleasă se poate dovedi a fi destul de folositoare.
+
+
+
+\subsection{Compilare} 
+
+Pentru a compila toate acestea putem folosi \textbf{distutils}. Trebuie să ne asigurăm că includem anteturile NumPy. Sistemul standard de compilare Python oferă suport pentru extensii C, ceea ce este destul de convenabil. Se salvează urmatoarea secvența de cod în fișierul \textit{setup.py}:
+
+\lstset{language=Python,frame=single, showstringspaces=false}
+\begin{lstlisting}
+from distutils.core import setup, Extension
+setup(name='<nume_modul>', version='1.0', \
+ext_modules=[Extension('<nume_modul>', ['<nume_modul>.c'])])
+\end{lstlisting}
+
+Așa cum este specificat în lucrarea \cite{py-book}, fișierul poate conține diverse informații cum ar fi: numele modulului, versiunea, o listă cu toate pachetele care dorim să le includem, un dicționar care să specifice fișierele necesare fiecărui pachet.
+
+După ce se rulează comanda \textit{python setup.py install},  se buildează și instalează fișierul C în modulul Python. Pentru a testa că operația s-a finalizat cu succes, se importă modulul și se apelează. Se generază mai multe tipuri de fișiere:
+\begin{itemize}
+  \item \textbf{.pyc}: Acesta este bytecode-ul compilat. Dacă se importată un modul, Python va construi un fișier .pyc care conține bytecode-ul pentru a face mai ușor și mai rapid  importul acestuia din nou mai târziu.
+  \item \textbf{.pyo}: Acesta este un fișier .pyc care a fost creat în timp flag-ul de optimizări a fost activat. Singurul lucru care este mai rapid la fișierele \textit{.pyo} sau \textit{.pyc} este viteza cu care sunt încărcate.
+  \item \textbf{.pyd}: Acesta este de fapt un scipt Python realizat ca un DLL de Windows.
+\end{itemize}
+
+Există uneori cazuri în care se dorește dezvoltarea de programe care rulează atât pe versiunile de Python 2, cât și pe cele de Python 3. Există o mulțime de diferențe între acestea, inclus în cazul scrierii unei extensii. Pentru această problemă există doua abordări. În primul caz se poate realiza și distribui două module, pentru Python 2 și 3. Cealaltă opțiune este să modificăm codul curent astfel încât să fie compatibil cu orice versiune.
+
+%\subsection*{•}
+
+
+\section{Log și debugging}
+
+Aproape în fiecare limbaj de programare, manipularea erorilor este o activitate dificilă. C-ul abordează problema returnând coduri de eroare și setând valoare variabilei globale \textit{errno}. Pe măsură ce se scrie cod C, se folosește modelul:
+
+\begin{itemize}
+  \item Se apelează o funcție.
+  \item În cazul în care valoarea returnată este o eroare, trebuie verificată de fiecare dată.
+  \item Apoi se face cleanup-ul tuturor resurselor create până în prezent.
+  \item Se afișează un mesaj de eroare.
+\end{itemize}
+
+Soluția folosită este un mic set de macro-uri care pun în aplicare un sistem de bază de depanare pentru C. Acest sistem este ușor de înțeles, funcționează cu orice bibliotecă, și face codul mai mai clar.
+
+Directivele \textit{ifdef} verifică dacă token-ul dat a fost definit mai devreme în fișier sau într-un fișier inclus. Dacă este așa, acesta include tot ceea ce există pană la linia \textit{else}, sau dacă aceasta nu există, până la linia \textit{endif}. În soluția propusă am definit doi tokeni: \textit{logging} și \textit{debug}. Împreună definesc comportamentul mai multor macro-uri. Există trei tipuri de logare: mesaj, warning și eroare; plus un tip debug, fiecare cu trăsăturile sale specifice:
+
+\begin{itemize}
+  \item Log Message: Afișează mesajul dorit cu tag-ul \textit{[info]} în față.
+  \item Log Warning: Afișează mesajul dorit cu tag-ul \textit{[warn]} în față folosind culoarea galben. Are în plus informații despre fișierul C și linia de unde a fost apelat macro-ul.
+  \item Log Error: Afișează mesajul dorit cu tag-ul \textit{[error]} în față folosind culoarea roșu. Acest macro are rezervat un argument în plus, special pentru codul de eroare.
+  \item Debug: Este cel mai uzual. Oferă și informații despre fișierul și linia de unde a fost apelat. Foarte util în momentul în care nu volumul de mesaje de printare este mare, devenind astfel mai eficient să dezactivăm toate macro-urile odată în loc să le ștergem sau să le comentăm pe toate.
+\end{itemize}

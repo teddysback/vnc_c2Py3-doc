@@ -1,0 +1,61 @@
+\BOOKMARK [0][-]{chapter*.2}{Lista de tabele}{}% 1
+\BOOKMARK [0][-]{chapter*.3}{Lista de figuri}{}% 2
+\BOOKMARK [0][-]{chapter.1}{Introducere}{}% 3
+\BOOKMARK [1][-]{section.1.1}{Context}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.2}{Motivatie}{chapter.1}% 5
+\BOOKMARK [1][-]{section.1.3}{Structura lucrarii}{chapter.1}% 6
+\BOOKMARK [0][-]{chapter.2}{Obiective si specificatii}{}% 7
+\BOOKMARK [1][-]{section.2.1}{Obiective}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.2}{Specificatii}{chapter.2}% 9
+\BOOKMARK [2][-]{subsection.2.2.1}{Specificatii functionale}{section.2.2}% 10
+\BOOKMARK [2][-]{subsection.2.2.2}{Specificatii non-functionale}{section.2.2}% 11
+\BOOKMARK [0][-]{chapter.3}{Studiu bibliografic}{}% 12
+\BOOKMARK [1][-]{section.3.1}{Abordari similare}{chapter.3}% 13
+\BOOKMARK [2][-]{subsection.3.1.1}{TeamViewer}{section.3.1}% 14
+\BOOKMARK [2][-]{subsection.3.1.2}{Remote Desktop Connection}{section.3.1}% 15
+\BOOKMARK [2][-]{subsection.3.1.3}{RealVNC}{section.3.1}% 16
+\BOOKMARK [1][-]{section.3.2}{Tehnici/Tehnologii/Surse folosite}{chapter.3}% 17
+\BOOKMARK [2][-]{subsection.3.2.1}{Intel vPro}{section.3.2}% 18
+\BOOKMARK [2][-]{subsection.3.2.2}{Intel Active Management Technology}{section.3.2}% 19
+\BOOKMARK [2][-]{subsection.3.2.3}{Virtual Network Computing}{section.3.2}% 20
+\BOOKMARK [2][-]{subsection.3.2.4}{Keyboard Video Mouse}{section.3.2}% 21
+\BOOKMARK [2][-]{subsection.3.2.5}{Remote Framebuffer}{section.3.2}% 22
+\BOOKMARK [2][-]{subsection.3.2.6}{Libraria vncamt}{section.3.2}% 23
+\BOOKMARK [0][-]{chapter.4}{Fundamente teoretice}{}% 24
+\BOOKMARK [1][-]{section.4.1}{Protocolul Remote Framebuffer}{chapter.4}% 25
+\BOOKMARK [2][-]{subsection.4.1.1}{Codificare}{section.4.1}% 26
+\BOOKMARK [2][-]{subsection.4.1.2}{Transmiterea de mesaje}{section.4.1}% 27
+\BOOKMARK [2][-]{subsection.4.1.3}{Actualizare Framebuffer}{section.4.1}% 28
+\BOOKMARK [2][-]{subsection.4.1.4}{Raw Pixel Data}{section.4.1}% 29
+\BOOKMARK [1][-]{section.4.2}{Tehnologii}{chapter.4}% 30
+\BOOKMARK [2][-]{subsection.4.2.1}{Numpy}{section.4.2}% 31
+\BOOKMARK [2][-]{subsection.4.2.2}{Pygame}{section.4.2}% 32
+\BOOKMARK [2][-]{subsection.4.2.3}{Python C Api}{section.4.2}% 33
+\BOOKMARK [2][-]{subsection.4.2.4}{Compilare}{section.4.2}% 34
+\BOOKMARK [1][-]{section.4.3}{Log si debugging}{chapter.4}% 35
+\BOOKMARK [0][-]{chapter.5}{Analiza si proiectare}{}% 36
+\BOOKMARK [1][-]{section.5.1}{Structura sistemului}{chapter.5}% 37
+\BOOKMARK [1][-]{section.5.2}{Functionare}{chapter.5}% 38
+\BOOKMARK [1][-]{section.5.3}{Interactiunea dintre module}{chapter.5}% 39
+\BOOKMARK [1][-]{section.5.4}{Organizare}{chapter.5}% 40
+\BOOKMARK [1][-]{section.5.5}{Global Interpreter Lock}{chapter.5}% 41
+\BOOKMARK [1][-]{section.5.6}{Justificari}{chapter.5}% 42
+\BOOKMARK [0][-]{chapter.6}{Detalii de implementare}{}% 43
+\BOOKMARK [1][-]{section.6.1}{Structura modulului}{chapter.6}% 44
+\BOOKMARK [1][-]{section.6.2}{Contorul de referinte}{chapter.6}% 45
+\BOOKMARK [1][-]{section.6.3}{Structuri de date proprii}{chapter.6}% 46
+\BOOKMARK [1][-]{section.6.4}{Integrarea bibliotecii vncamt}{chapter.6}% 47
+\BOOKMARK [1][-]{section.6.5}{Structuri de date importate}{chapter.6}% 48
+\BOOKMARK [1][-]{section.6.6}{Buffer-ul video}{chapter.6}% 49
+\BOOKMARK [1][-]{section.6.7}{Interfata utilizator}{chapter.6}% 50
+\BOOKMARK [0][-]{chapter.7}{Teste si rezultate experimentale}{}% 51
+\BOOKMARK [1][-]{section.7.1}{Teste de functionalitate}{chapter.7}% 52
+\BOOKMARK [1][-]{section.7.2}{Teste de performanta}{chapter.7}% 53
+\BOOKMARK [0][-]{chapter.8}{Manual utilizator}{}% 54
+\BOOKMARK [1][-]{section.8.1}{Instalare}{chapter.8}% 55
+\BOOKMARK [2][-]{subsection.8.1.1}{Configurarea masinilor}{section.8.1}% 56
+\BOOKMARK [2][-]{subsection.8.1.2}{Instalarea modului}{section.8.1}% 57
+\BOOKMARK [1][-]{section.8.2}{Utilizare}{chapter.8}% 58
+\BOOKMARK [0][-]{chapter.9}{Concluzii}{}% 59
+\BOOKMARK [0][-]{chapter*.4}{Bibliografie}{}% 60
+\BOOKMARK [0][-]{chapter.1}{Cod sursa \(partial\)}{}% 61

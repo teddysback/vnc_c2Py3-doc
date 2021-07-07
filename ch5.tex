@@ -1,0 +1,305 @@
+%\chapter{Analysis and Design}
+\chapter{Analiză și proiectare}
+\label{cap:analiza-si-proiectare}
+
+%Acest capitol descrie design-ul proiectului și cuprinde, în general: 
+%\begin{enumerate}
+%  \item ilustrarea arhitecturii generale și detaliate a sistemului implementat, care să evidențieze modulele componente și relațiile dintre acestea
+%  \item stările prin care trece sistemul în decursul funcționării sale (diagrame de stare)
+%  \item modul de interacțiune dintre module și funcționalitatea acestora ilustrată prin diagrame de secvențe
+%  \item descrierea algoritmilor/metodelor pe care se bazează funcționarea sistemului dezvoltat
+%  \item descrierea organizării/structurii eventualelor baze de date folosite
+%  \item justificarea alegerilor/deciziilor făcute și analiza critică a acestora (avantaje și dezavantaje), prin comparație cu alte alternative posibile
+%\end{enumerate}
+%
+%Ca idee generală, design-ul trebuie să fie prezentat independent de o implementare anume, în general, și de cea a voastră, în particular. De asemenea, descrierea design-ului trebuie să conțină toate elementele și detaliile necesare, astfel încât altcineva decât voi să poate realiza o implementare a lui, fără a fi nevoit să ia decizii arhitecturale sau organizare (adică, de design) și să vă contacteze pentru a-și lămuri anumite aspecte neclare.
+%
+%Capitolul trebuie organizat pe secțiuni și subsecțiuni astfel descrierea să urmeze un cors logic și ușor de urmărit. 
+%
+%Ponderea acestui capitol relativ la întreaga lucrare este de 25-35\%.
+%
+%
+%\section{Examples: lists, figures, tables, equations}
+%
+%Așa arată o listă de elemente nenumerotate:
+%\begin{itemize}
+%  \item element 1
+%  \item element 2
+%  \item \dots
+%\end{itemize}
+%
+%
+%Așa arată o listă de elemente numerotare:
+%\begin{itemize}
+%  \item element 1
+%  \item element 2
+%  \item \dots
+%\end{itemize}
+%
+%
+%Așa arată o listă în text: 
+%\begin{inparaenum}[(\itshape 1 \upshape)]
+%  \item element 1, 
+%  \item element 2, 
+%  \item \dots
+%\end{inparaenum}
+%
+%\textbf{Atenție}: orice tabel, figura sau ecuație (formulă) trebuie referite \textit{explicit} în text explicit (de genul: în Figura X este ulustrat \dots, în Tabelul Y se poate vedea \dots), pentru că Latex le poate plasa chiar și pe altă pagină decât acolo unde vrem noi să ne referim la ele. Vedeți exemple de mai jos!
+%
+%Tabelul~\ref{table:example} ilustrează un exemplu de tabel. Un editor on-line de tabele poate fi găsit la \url{http://www.tablesgenerator.com/}. 
+%
+%\begin{table}[t]
+%\centering                          % tabel centrat 
+%\begin{tabular}{|c|c|c|c|}          % 4 coloane centrate 
+%\hline\hline                        % linie orizontala dubla
+%Case & Method\#1 & Method\#2 & Method\#3 \\ [0.5ex]   % inserare tabel
+%%heading
+%\hline                              % linie orizontal simpla
+%1 & 50 & 837 & 970 \\               % corpul tabelului 
+%2 & 47 & 877 & 230 \\
+%3 & 31 & 25 & 415 \\[1ex]           % [1ex] adds vertical space
+%\hline                              
+%\end{tabular}
+%\caption{Nonlinear Model Results}   % titlul tabelului
+%\label{table:example}                % \label{table:nonlin} introduce eticheta folosita pentru referirea tabelului in text; referirea in text se va face cu \ref{table:nonlin}
+%\end{table}
+%
+%În Figura~\ref{fig:exemplu} 
+%
+%\begin{figure}
+%    \centering
+%    \includegraphics[width=0.5\textwidth]{image}
+%    \caption{Numele figurii}
+%    \label{fig:exemplu}
+%\end{figure}
+%
+%
+%Formula~(\ref{eq:example}) arată modul de calcul al lui $\Delta$:
+%\begin{equation} \label{eq:example}
+%    \Delta =\sum_{i=1}^N w_i (x_i - \bar{x})^2 .
+%\end{equation}
+%
+%
+%Algoritmul~\ref{alg:example} este un exemplu de descriere pseudo-cod a unui algoritm, preluat de la \href{http://en.wikibooks.org/wiki/LaTeX/Algorithms#Typesetting_using_the_algorithm2e_package}{http://en.wikibooks.org/wiki/LaTeX}. El utilizează pachetul \textit{algorithm2e}. Alternativ, puteți utiliza pachetele \textit{algorithmic} sau \textit{program}. 
+%
+%\begin{algorithm}
+% \KwData{this text}
+% \KwResult{how to write algorithm with \LaTeX2e }
+% initialization\;
+% \While{not at end of this document}{
+%  read current\;
+%  \eIf{understand}{
+%   go to next section\;
+%   current section becomes this one\;
+%   }{
+%   go back to the beginning of current section\;
+%  }
+% }
+% \caption{How to write algorithms}
+% \label{alg:example}
+%\end{algorithm}
+%
+%25-35% --> 13.75-19.25pg
+
+O aplicație de Virtual Network Computing constă din două tipuri de componente. Un server, care generează un display, și un viewer, care se ocupă de desenarea acestui display pe ecran. Există două caracteristici importante:
+
+
+
+\begin{itemize}
+  \item Serverul și viewer-ul se pot afla pe calculatoare diferite, care au chiar și arhitecturi diferite. Protocolul care realizează conexiunea dintre server și viewer este simplu, este disponibil pentru toată lumea, și nu este dependent de platformă.
+  \item Viewer-ul nu salvează nicio stare. În cazul în care se întrerupe conexiunea cu serverul și se reia ulterior, după reconectare nu există niciun fel de pierderi de date. Din această cauză conexiunea se poate realiza dintr-o altă locație, oferind astfel mobilitate.
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{clientserver}
+    \caption{\textit{Client și server VNC}}
+    \label{vncclsrv}
+\end{figure}
+
+În figura \ref{vncclsrv} este evidențiată comunicarea. Aceasta este cu adevărat un protocol thin-client. A fost conceput pentru a face foarte puține cerințe ale viewer-ului. În acest fel, clienții pot rula pe o gamă variată de hardware, iar sarcina de a implementa un client este făcută cât mai simplu posibil.
+
+Protocolul VNC este un protocol simplu pentru accesul de la distanță la interfețe grafice. Se bazează pe conceptul de Remote Framebuffer. În trecut protocolul VNC era referit ca protocol RFB, astfel încât este posibil să fi întâmpinat acest termen în alte publicații. Protocolul permite pur și simplu unui server să actualizeze framebuffer-ul afișat de un vizualizator. Deoarece funcționează la nivel de framebuffer este aplicabil tuturor sistemelor de operare. Protocolul va funcționa folosind orice tip transport de încredere, cum ar fi TCP / IP.
+
+\section{Structura sistemului}
+%1 -- ilustrarea arhitecturii generale și detaliate a sistemului implementat, care să evidențieze modulele componente și relațiile dintre acestea
+
+%arhitectura generala: 
+%-vncamt.dll 
+%-c extension
+%-python script
+
+%explicatie
+%caracteristici vncamt.dll
+În figura \ref{general} sunt prezentate componentele generale ale sistemului. După cum se vede, Active Management Technology expune o interfață. Pentru realizarea unei conexiuni Virtual Network Computing se folosește portul 5900. Este necesară o configurare inițială a sistemelor de test. Acest lucru necesită două etape de configurare. Chiar dacă calculatoarele folosesc tehnologia Intel vPro, funcționalitatea de AMT este disponibilă doar după ce este pornită și configurată. În plus trebuie pornit portul folosit de VNC și setată parola pentru Remote Framebuffer. Acești pași se vor prezenta în detaliu în manualul de utilizare.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{general}
+    \caption{\textit{Componentele sistemului}}
+    \label{general}
+\end{figure}
+
+Biblioteca vncamt.dll este folosită pentru a realiza comunicarea dintre calculatorul aflat la distanță și calculatorul client. Aceasta trebuie integrată în aplicație conform documentației oferite de RealVNC.
+ 
+
+
+%-comunicare dintre ele
+%-handshake
+%-desen \ref{vncarhi}
+Factori importanți care diferențiază VNC de la alte sisteme de afișare de la distanță sunt după cum urmează:
+
+\begin{itemize}
+  \item Nicio stare nu este stocată viewer. Acest lucru înseamnă că se permite reconectarea  la desktop de la un alt computer și se facilitează continuarea utilizării din starea în care a fost lasat. Chiar cursorul va fi în același loc. Cu un alt tip de server, dacă PC-ul se blochează sau este repornit, toate aplicațiile de la distanță vor muri. Cu VNC ele continuă să ruleze.
+  \item Acesta este mic și simplu. Un viewer Win32, de exemplu, ocupă aproximativ 150K în dimensiuni și poate fi rulat direct de pe un floppy. Nu necesită nicio instalare.
+  \item Este cu adevărat independent de platformă. Un desktop care rulează pe o mașină de Linux sau Solaris poate fi afișat pe orice PC. Sau orice alte arhitecturi. Simplitatea protocolului îl face ușor de portat pe platforme noi. Există vieweri Java, care pot rula în orice browser capabil Java.
+  \item Este partajat. Un desktop poate fi afișat și utilizat de mai multi telespectatori simultan, permițând realizarea de aplicații în stil cooperative work.
+  \item Este gratuit. Există multe versiuni disponibile pentru download sub termenii GNU Public License.
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{rfbarh}
+    \caption{\textit{Comnunicare între client și server}}
+    \label{vncarhi}
+\end{figure}
+
+În acest sistem este interesantă comunicarea furnizată de protocol. Figura \ref{vncarhi} prezintă puțin mai detaliat cum se realizează transferul buffer-ului video de pe mașina remote. Este de notat faptul că între aceste componente există și alte mesaje transmise, de exemplu clientul trimite evenimente de intrare către server. Deoarece se folosește protocolul Remote FrameBuffer datele sunt trimise în mod normal pe o rețea nesecurizată. 
+
+Mesajele care transmit date despre pixeli sunt trimise în general de fiecare dată când framebuffer-ul aflat la distanță a fost actualizat. În cazul în care clientul a pierdut o parte din buffer, acesta poate să trimită o înștiințare către server și să ceară să îi trimită acea porțiune. Serverul poate să trimită zona cerută sub orice fel de configurație de dreptunghiuri dorește. De asemenea, clientul are posibilitatea să trimită o cerere de update către server și în cazul în care nu a pierdut informațiile. Singura diferență față de cea anterioară este că de această dată serverul este înștiințat că nimic nu a fost pierdut. Astfel el nu o să trimită aceea zonă, ci o să aștepte până în momentul în care este modificată, și tocmai atunci o să trimită actualizarea către client.
+
+Diagrama prezintă foarte bine componentele. Pe calculatorul aflat la distanță avem o aplicație care rulează. Aici se află serverul care așteaptă o conexiune. Pe baza informațiilor disponibile, se realizează un framebuffer virtual. Aici se află datele despre pixelii care se găsesc în acel moment pe consola video. Dacă viewer-ul s-a conectat cu succes, primește acces la acest buffer. Informația este mai întâi împachetată și apoi trimisă. Pe partea de client, viewer-ul oferă mai departe aceste date pentru a fi despachetate și interpretate. Se poate folosi orice fel de structură disponibilă pentru stocarea informațiilor despre pixeli, sau se poate crea o structură specială. Mai departe framebuffer-ul este disponibil și nu există nicio limitare pentru folosirea lui.
+
+
+
+
+
+
+%arhitectura extensie: 
+%-dbg 
+%-metode specifice Python.h 
+%-metode visibile in Python 
+%-callback uri vncamt.dll
+
+\section{Funcționare}
+%2 -- stările prin care trece sistemul în decursul funcționării sale (diagrame de stare)
+
+% conectare la real vnc, 
+
+Aplicația inițial se află într-o stare de inactivitate. În această stare ea a inițializat deja biblioteca care o folosește și așteaptă comenzi. Pentru a reuși să stabilim o conexiune cu succes că să putem vedea frame buffer-ul sunt necesari mai multi pași. Mai întâi se creează un viewer VNC. Dacă operația a avut loc fără erori, atunci avem la dispoziție un obiect. Acesta poate fi distrus sau se poate da o comandă de pornire. Biblioteca când primește această instrucțiune cere mai întâi o autentificare. Dacă se introduc datele corect viewer-ul VNC devine activ. 
+
+Această sesiune poate fi închisă explicit în momentul în care nu mai avem nevoie de ea. În cazul în care se uită închiderea explicită a viewer-ului, după o anumită perioadă de inactivitate viewer-ul este închis în mod automat. Acesta poate fi păstrat în această stare pentru a fi refolosit ulterior. În momentul în care se repornește, autentificarea nu mai este necesară.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{state}
+    \caption{\textit{Diagrama de stare a proiectului}}
+    \label{d:state}
+\end{figure}
+
+
+
+Dacă autentificarea nu s-a efectuat cu succes, suntem înștiințați. În acest moment, un viewer poate fi distrus, dar de cele mai multe ori este păstrat. Obiectul este folosit pentru a oferi mai multe reîncercări de autentificare. Este recomandată distrugerea viewer-ului atunci când știm cu siguranță că nu mai avem nevoie de el, de exemplu după ce conexiunea a fost oprită. În diagrama \ref{d:state} sunt prezentate stările de tranziție.
+
+
+
+\section{Interacțiunea dintre module}
+%3 --  modul de interacțiune dintre module și funcționalitatea acestora ilustrată prin diagrame de secvențe
+
+% interfatarea cu metodele din extensia C
+
+În această secțiune sunt prezentate două din operațiile de bază. Orice conexiune este constituită dintr-un client VNC care se conectează la un server VNC. Server-ul este aflat pe mașina remote și rulează acolo. Pe mașina client mai întâi trebuie creeat un viewer. Acest viewer este ulterior folosit, și distrus în momentul în care nu mai este folosit. În figura \ref{seq:create} se prezintă diagrama de secvență a acestui proces. Trebuie avut în vederere că script-ul handler.py și clasele VNCVIewerSDK, VNCViewer sunt într-un mediu Python, iar celelalte în mediul C. Deși pare o operațiune trivială la prima vedere, este necesară o bună comunicare pentru un management al erorilor eficient.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{create}
+    \caption{\textit{Diagrama de secvență pentru realizarea unui Viewer}}
+    \label{seq:create}
+\end{figure}
+
+
+Figura \ref{seq:start} prezintă diagrama de secvență pentru pornirea unui viewer VNC. Se pot observa operațiile necesare pentru funcția de start. Se transmite comanda de începere. Se interoghează o listă care conține toate viewer-ele și se returnează cel dorit. Cu ajutorul acestui obiect putem să continuam procesul prin intermediul bibliotecii. Callback-ul de autentificare din aplicația este apelat. Aici se furnizează o parolă, și dacă este cazul un user, pentru Remote Framebuffer. Atunci când procesul de autentificare se încheie cu succes se apelează un alt callback. De această dată este chemată funcția de inițializare. Această oferă informații esențiale despre datele care vor fi primite. Tot aici este inițializată structura care reține buffer-ul video.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{start}
+    \caption{\textit{Diagrama de secvență pentru pornirea unui Viewer}}
+    \label{seq:start}
+\end{figure}
+
+În general cele două operații sunt chemate consecutiv. Nu există un motiv pentru care să se creeze un viewer fără să fie pornit, și în mod sigur nu o să fie posibilă apelarea operației de pornire în cazul în care nu există un viewer care să fie pornit. Se poate reutiliza un obiect de tip viewer în cazul în care a fost oprit anterior, și acum este necesară pornirea acestuia.
+
+%\section{Algoritmi?}
+%%4 -- descrierea algoritmilor/metodelor pe care se bazează funcționarea sistemului dezvoltat 
+%
+%% algoritmul de desenat
+%pixel buffer and raw encoding
+
+\section{Organizare}
+%5 -- descrierea organizării/structurii eventualelor baze de date folosite
+
+% o arhitectura mai detaliata a:
+%- py scripts: handler, viewer, pixelbuffer,
+%- c extension: dbg.h,real vnc headers(*.h), vncmodule.c, vncmodule.h
+%- helpers: setup.py, postbuild.bat
+
+Figura \ref{exte} prezintă arhitectura proiectului de licență. După cum se bine poate observa, are trei mari componente. Header-ele librăriei \textit{vncamt.dll} comunică cu extensia scrisă în limbajul C. Acesta din urmă este practic un wrapper, care oferă mediului python acces la funcțiile librăriei. Mai există o a patra componentă care nu are direct legătură cu proiectul. Aceasta oferă ajutor în alte situații, cum ar fi o metodă automată de build.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{extensie}
+    \caption{\textit{Arhitectura sistemului}}
+    \label{exte}
+\end{figure}
+
+Pe partea de Python se disting 3 script-uri. Acestea nu sunt necesare, dar ușurează foarte mult integrarea. Fișierul \textbf{handler.py} oferă acces rapid la funcționalitățile pachetului. El reprezintă practic un exemplu care demonstrează cât de ușoară poate fi folosirea metodelor expuse. Fișierul \textbf{viewer.py} este cel care se ocupă de comunicarea cu extensia, este cel care abstractizează mare parte din proiect și îl face ușor de accesat, și nu în ultimul rând este cel care se ocupă de acțiunea de desenat. \textbf{pixelbuffer.py} expune o clasă special adaptată pentru necesitățile acestui proiect. Aceasta are capacitatea atât de a reține informații specifice, cât și de a decodifica inputul primit de viewer. Clasa \textit{Pixelbuffer} primește un stream de la viewer, îl decodifică și realizează o matrice ce poate fi ulterior interpretată de viewer, și desenată.
+
+În general, un header notifică compilatorul de anumite lucruri, în cea mai mare parte de existența lor sau declarațiile, astfel încât compilatorul poate construi în mod corect o singură unitate de traducere. O bibliotecă este codul executabil real, care funcționează după cum se specifică în header. Acest lucru este legat de către linker pentru a oferi funcționalitatea reală. Deci pentru a utiliza tehnologia oferită de RealVNC trebuie să includem header-el librăriei \textit{vncamt}. Acestea includ structuri și antete de metode necesare integrării. Biblioteca \textit{vncamt} oferă macro-uri, definiții de tipuri de variabile, și funcții pentru sarcini cum ar fi manipularea de string-uri, prelucrarea intrărilor și ieșirilor, alocarea de memorie și alte câteva servicii.
+
+Extensia este în mod sigur partea cea mai interesantă din acest proiect. Această componentă este podul dintre două lumi diferite. De o parte trebuie să aibă grijă de probleme specifice limbajului Python, cum ar fi valoarea reference conter-ului. De altă parte trebuie să țină cont de modul în care o aplicație în limbajul C necesită un management bun al erorilor. Exceptând librăria, o parte din codul extensiei este dedicat API-ului de C. Pentru crearea acestui modul implementarea C trebuie să o anumită structură. În primul rând proiectul trebuie sa includă fișierul \textit{Python.h}. Mai departe trebuie scrisă o metodă de inițializare a modului. La aceasta se adaugă funcțiile care vrem să le expunem. În plus este necesară crearea unui tabel care mapează numele funcțiilor expuse în Python cu numele funcțiilor C din interiorul extensiei.
+
+
+\section{Global Interpreter Lock}
+
+În CPython, Global Interpreter Lock sau GIL, este un mutex care previne mai multe thread-uri să execute bytecode Python în același timp. Aceast lacăt este necesar în principal din cauza faptului că managementul de memorie  CPython nu este thread-safe.
+În implementarea acestui proiect s-au folosit metodele \textit{PyGILState\_Ensure()} pentru a prelua lacătul, și \textit{PyGILState\_Release()} pentru a-l elibera. \textit{PyGILState\_Ensure()} returnează un obiect de tipul \textit{PyGILState\_State}.
+ 
+GIL urmărește câteva reguli simple:
+\begin{itemize}
+  \item execuția în paralel este interzisă
+  \item există un \textit{global interpreter lock}
+  \item GIL asigură că doar un singur fir se execută în
+interpretor la orice moment dat
+  \item simplifică multe detalii de nivel scăzut: management de memorie, trimitere de înștiințări extensiilor C, etc.
+\end{itemize}
+
+GIL din Python este destinat serializării accesului la componentele interne din thread-uri diferite. În cazul sistemelor cu mai multe procesoare, aceasta înseamnă că mai multe thread-uri nu pot face în mod eficient uz de mai multe nuclee. 
+
+GIL Python este cu adevărat numai o problemă pentru CPython, implementarea de bază. \textit{Jython} și \textit{IronPython} nu au GIL. Ca dezvoltator Python, nu intri în contact cu GIL cu excepția cazului când trebuie scrisă o extensie C. Este nevoie să se elibereze GIL când extensiile împiedică operațiile I/O, astfel încât alte thread-uri de Python să obțină o șansă.
+
+Multithreading-ul este posibil în Python, dar două thread-uri nu pot fi executate în același timp, la o granularitate mai mică decât o instrucțiune Piton. Thread-ul de execuție primește lacătul. Dacă scopul este să scriem cod care să profite de avantajele muti-core, atunci trebuie menționat că performanța nu se va îmbunătăți. O soluție de obicei constă în folosirea mai multor procese. Nu trebuie uitat să se elibereze lacătul.
+
+
+\section{Justificări}
+%6 -- justificarea alegerilor/deciziilor făcute și analiza critică a acestora (avantaje și dezavantaje), prin comparație cu alte alternative posibile
+
+% pont: cauta prin comentariile de pe jira	
+
+Una din primele soluții propuse pentru proiectul de licență a fost implementarea unei metode similare cu unul din proiectele Python deja existente. Design-ul poate fi urmărit cu ușurință folosind documentația de la protocolul Remote Framebuffer. Problema care a existat la aceste proiecte este faptul că ele au anumite dependințe. Lucrarea de față trebuie să fie scrisă în Python 3, iar resursele sunt scrise în Python 2. Există mici diferențe între versiuni care pot fi remediate, însă toate proiectele de VNC scrise în Python folosesc doua librării externe. Una din ele, și anume \textit{twisted}, este compatibilă momentan doar pentru prima versiune. În plus această abordare ar fi consumat mult timp pentru implementare. Din același motiv s-a renunțat și la alternativa unui modul de networking similar \textit{twisted}, cum ar fi \textit{gevent} sau \textit{asincyo}.
+
+Prima încercare de scriere a unui wrapper a fost realizată cu \textit{ctypes}. Aceasta este o bibliotecă străină pentru Python. Oferă tipuri de date compatibile C și permite apelul funcțiilor unei biblioteci. Aceasta poate fi folosită pentru a scrie un wrapper doar în Python. S-a renunțat la această soluție atunci când a fost necesară scrierea unei definiții pentru o structură opacă utilizată de dll. \textit{ctypes} s-a dovedit ușor de înțeles și folosit. Oferă chiar posibilitatea descrierii structurilor din limbajul C. S-a reușit cu succes apelul unor funcții, însă s-a dovedit ineficient în transmiterea pointerilor. Alternativa aleasă a oferit o gamă mult mai largă de personalizare a opțiunilor. Astfel s-a început implementarea folosind Python C-API.
+
+Mult timp s-a irosit din cauza incompatibilităților. Majoritatea versiunilor de Python mai mici de 3.3 au fost create folosind Microsoft Visual Studio 2008. De cele mai multe ori developerii care dezvoltă aplicații în Python sunt utilizatori de Linux. În mod normal acest lucru a dus la un deficit pentru acea comunitate care folosește Windows. Cu toate acestea aproape toate modulele importante se găsesc recompilate și pentru Windows. Un pas important a fost momentul în care s-a publicat Microsoft Visual Sudio 2015 și Python a devenit compilat cu acesta. Cu această ocazie s-a realizat migrarea proiectul. Până atunci a fost necesar folosirea unui compilator MingW special instalat și configurat.
+
+Din lipsa surselor de informare, inițial a existat o perioadă de acomodare cu arhitectura unui astfel de modul. S-a creat scheletul proiectului și au fost implementate cu succes o serie de operațiuni de bază: apelarea unor metode Python, interpretarea de argumente, pasarea de informații, operațiuni cu pointeri. Implementarea callback-urilor a fost puțin mai dificilă. În momentul în care librăria \textit{vncamt} apelează un callback din extensia C, acesta apelează o funcție din Python cu exact aceleași argumente. Funcția din Python folosește aceste date și uneori poate chiar să returneze valori, care să fie trimise înapoi la callback din C. Abia acum acesta își încheie execuția.
+
+%O altă problemă a fost în întâmpinată atunci când s-a realizat prima desenare a unui pătrat de 64 x 64 pixeli de pe un calculator remote. 
+%
+%...
+%
+%...
+
+
+
+
+

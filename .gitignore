@@ -1,0 +1,7 @@
+figures/*
+*.pdf
+*.log
+*.bak
+*.blg
+*.tex.backup
+*.gz

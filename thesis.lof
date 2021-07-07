@@ -1,0 +1,39 @@
+\select@language {romanian}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces High Level View of Intel AMT components}}{10}{figure.3.1}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Sistem VNC}}{11}{figure.3.2}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces RealVNC \IeC {{\textcommabelow s}}i IntelME}}{12}{figure.3.3}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Remote Framebuffer Protocol}}{13}{figure.3.4}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Pixel Format}}{16}{figure.4.1}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Update frame buffer }}{17}{figure.4.2}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces \textit {numberOfRectangles}}}{17}{figure.4.3}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces \textit {Client \IeC {{\textcommabelow s}}i server VNC}}}{23}{figure.5.1}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces \textit {Componentele sistemului}}}{24}{figure.5.2}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces \textit {Comnunicare \IeC {\^\i }ntre client \IeC {{\textcommabelow s}}i server}}}{25}{figure.5.3}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces \textit {Diagrama de stare a proiectului}}}{26}{figure.5.4}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces \textit {Diagrama de secven\IeC {{\textcommabelow t}}\IeC {\u a} pentru realizarea unui Viewer}}}{27}{figure.5.5}
+\contentsline {figure}{\numberline {5.6}{\ignorespaces \textit {Diagrama de secven\IeC {{\textcommabelow t}}\IeC {\u a} pentru pornirea unui Viewer}}}{28}{figure.5.6}
+\contentsline {figure}{\numberline {5.7}{\ignorespaces \textit {Arhitectura sistemului}}}{29}{figure.5.7}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces \textit {Structura proiectelor}}}{34}{figure.6.1}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces \textit {Integrarea libr\IeC {\u a}riei}}}{38}{figure.6.2}
+\contentsline {figure}{\numberline {6.3}{\ignorespaces \textit {Clasele din Python}}}{40}{figure.6.3}
+\contentsline {figure}{\numberline {6.4}{\ignorespaces \textit {Reprezentarea intern\IeC {\u a} a datelor despre pixeli}}}{41}{figure.6.4}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Idle: wrapper(negru) vs RealVNC(ro\IeC {{\textcommabelow s}}u)}}{46}{figure.7.1}
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Idle: wrapper(negru) vs RDC(albastru)}}{46}{figure.7.2}
+\contentsline {figure}{\numberline {7.3}{\ignorespaces 4k video stream: wrapper(negru) vs RealVNC(ro\IeC {{\textcommabelow s}}u)}}{47}{figure.7.3}
+\contentsline {figure}{\numberline {7.4}{\ignorespaces 4k video stream: wrapper(negru) vs RealVNC(albastru)}}{48}{figure.7.4}
+\contentsline {figure}{\numberline {7.5}{\ignorespaces Without caching: wrapper vs RealVNC}}{48}{figure.7.5}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {8.1}{\ignorespaces \textit {MEBx Login}}}{52}{figure.8.1}
+\contentsline {figure}{\numberline {8.2}{\ignorespaces \textit {Intel AMT Configuration}}}{52}{figure.8.2}
+\contentsline {figure}{\numberline {8.3}{\ignorespaces \textit {\textbf {Reprezentarea intern\IeC {\u a} a datelor despre pixeli}}}}{53}{figure.8.3}
+\contentsline {figure}{\numberline {8.4}{\ignorespaces \textit {TCP / IP Settings}}}{54}{figure.8.4}
+\contentsline {figure}{\numberline {8.5}{\ignorespaces \textit {Wired LAN IPV4 Configuration}}}{54}{figure.8.5}
+\addvspace {10\p@ }
+\addvspace {10\p@ }

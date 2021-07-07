@@ -1,0 +1,102 @@
+
+%User Manual
+%chapter{User Manual}
+\chapter{Manual utilizator}
+
+\label{cap:user-manual}
+
+
+%Dacă dezvoltarea aplicației s-a bazat sau a presupus instalarea și configurarea unei infrastructuri (complexe), descrieți detaliat pașii pe care i-ați urmat (referințele utilizate) și mai ales abaterile voite sau necesare de la documenațiile referite. Încercați ca cineva care vă continuă tema să nu mai fie nevoit să mai piardă timp inutil cu pregătirea mediului de lucru și să poată trece cât mai repede la abordarea temei proptriu-zise a proiectului. 
+%
+%Indincați, de asemenea, explicit versiunile aplicațiilor, bibliotecilor folosite și salvați o copie a acestora pe CD-ul atașat lucrării. E posibil ca aplicația voastră să nu mai funcționeze la fel pe alte versiuni și e bine de știut acest lucru și,  în același timp, e bine ca mediul descris de voi să poată fi reprodus ulterior. 
+%
+%Se întinde pe aproximativ 2-3 pagini. 
+
+
+În acest capitol se descriu pașii de instalare și rulare a aplicației. Așa cum am menționat și în capitolele anterioare, proiectul a fost la un anumit punct migrat. Instrucțiunile sunt actualizare din acest punct de vedere. De asemenea sunt incluse versiunile actuale ale tuturor pachetelor externe folosite în dezvoltarea acestui proiect.
+
+\section{Instalare}
+
+\subsection{Configurarea mașinilor}
+
+Pentru a folosi acest modul este nevoie în primul rând să avem tehnologia AMT disponibilă. Acest lucru necesită un pas de instalare, și unul de configurare. Instalarea se efectuează o singură dată. Presupune setarea sistemului și a conectivității network. După aceea Intel AMT poate fi accesat prin rețea de aplicații.
+
+Acesta este un proces manual care se face prin \textbf{MEBx}. Pentru a accesa acest meniu se restartează calculatorul și se apasă \textbf{Ctrl + P}.
+
+1. Se selecteaza \textbf{MEBx Login}, ca în figura \ref{pas1}.  
+ 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.65\textwidth]{pasul1}
+    \caption{\textit{MEBx Login}}
+    \label{pas1}
+\end{figure}
+
+2. La acest pas se setează o parolă pentru MEBx. Parola trebuie sa aibă între 8 și 32 de caractere, și trebuie să conțină litere mari, litere mici, numere și caractere speciale. Parola default este \textit{admin}. După schimbarea parolei trece sistemul de la modul Factory la modul In-Setup.
+
+3. Din meniul principal se selectează \textbf{Intel AMT Configuration} ca în figura \ref{pas2}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.65\textwidth]{pasul2}
+    \caption{\textit{Intel AMT Configuration}}
+    \label{pas2}
+\end{figure}
+
+4. Din aceste meniu, figura \ref{pas3}, se activează opțiunea \textbf{Manageability Feature Selection}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.65\textwidth]{pasul3}
+    \caption{\textit{\textbf{Reprezentarea internă a datelor despre pixeli}}}
+    \label{pas3}
+\end{figure}
+
+5. Se intră în meniul \textbf{SOL / IDER / KVM} și se pornesc și acestea. După care ne se revine în meniul anterior.
+
+6. La fel ca la pasul precedent, se setează în \textbf{User Consent} opțiunea \textbf{User Opt-In} cu valoarea \textbf{KVM}.
+
+7. \textbf{Password Policy} trebuie să rămână pe valoarea \textbf{Anytime}.
+
+8. Se selectează \textbf{Network Setup}
+
+9. Se selectează \textbf{TCP / IP Settings}, din meniul \ref{pas4}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.65\textwidth]{pasul4}
+    \caption{\textit{TCP / IP Settings}}
+    \label{pas4}
+\end{figure}
+
+10. Mai departe se intră în meniul \textbf{Wired LAN IPV4 Configuration}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.65\textwidth]{pasul5}
+    \caption{\textit{Wired LAN IPV4 Configuration}}
+    \label{pas5}
+\end{figure}
+
+11. În acest meniu \ref{pas5} trebuie făcute mai multe setări. \textbf{DHCP Mode} trebuie să fie dezactivat. Mai departe în trece adresa IP statică pentru AMT în câmpul \textbf{IPV4 Address}. Trebuie completate și restul câmpurilor. Trebuie verificat mai întâi ca IP-ul folosit nu există în rețeaua în care se află sistemul.
+
+
+Dupa ce Intel AMT a fost configurat putem să trecem mai departe. Pentru a seta o parola de Remote Framebuffer am folosit o aplicație din AMT SDK. Aceasta se numește KVMControlApplication.
+
+\begin{enumerate}
+  \item Se pornește aplicația. 
+  \item Se selectează \textbf{Edit Machine Settins}
+  \item În căsuța \textbf{Hostname / IP} se introduce adresa IP setată anterior pentru AMT
+  \item Se apasă butonul \textbf{Machine Settings}
+  \item În această fereastră se dă \textbf{Enable All Ports} și se setează parola pentru Remote Framebuffer. Este important de reținut că această parolă are o restricție în plus față de parola MEBx, și anume, trebuie să aibă exact 8 caractere.
+\end{enumerate}
+
+\subsection{Instalarea modului}
+
+În cazul în care se dorește recompilarea sau modificarea proiectului, acesta a fost implementat folosind Microsoft Visual Studio 2015. Pentru a folosi acest modul, înainte de toate, trebuie instalat Python. Se recomandă versiunea 3.5 pentru arhitectura x64 deoarece s-a dovedit a fi compatibilă cu Visual Studio 2015. Proiectul folosește și alte module externe: wheel, numpy versiunea 1.11.0b2 și pygame 1.9.2a0. Pentru a le instala se poate folosi comanda \textit{pip install <pachet>}. După ce s-au rezolvat aceste dependințe se poate instala și modulul nostru.
+
+\section{Utilizare}
+
+Pentru a folosi modulul într-un script Python, la fel ca orice alt modul, acesta trebuie în primul rând importat într-un proiect. Înainte trebuie să ne asigurăm ca biblioteca vncamt.dll se află lângă script. Se recomandă utilizarea script-urile disponibile pentru o integrare cât mai ușoară. Și acestea trebuie copiate și importate la rândul lor. Folosind doar clasa VNCViewerSDK se pot apela toate operațiile disponibile pentru viewere: creare, pornire, oprire, distrugere.
+
+În cazul în care se dorește o nouă implementare a clientului, și acest lucru este posibil. În primul rând trebuie scrise un set de metode pe post de callback-uri. Pointerii acestor metode sunt stocați într-un dicționar alături de numele funcțiilor pe care se mapează. În momentul în care un viewer este creat, se transmite și dicționarul care conține funcțiile. În momentul în care este pornit viewer-ul, informația primită trebuie salvată într-un buffer video. De aici mai departe este decizia dezvoltatorului ce face. Pentru mai multe detalii se recomandă consultarea documentației RealVNC și a scripturilor existente.

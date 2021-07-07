@@ -1,0 +1,62 @@
+\select@language {romanian}
+\contentsline {chapter}{List\u {a} de tabele}{iii}{chapter*.2}
+\contentsline {chapter}{List\u {a} de figuri}{v}{chapter*.3}
+\contentsline {chapter}{\numberline {1}Introducere}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Context}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Motiva\IeC {{\textcommabelow t}}ie}{1}{section.1.2}
+\contentsline {section}{\numberline {1.3}Structura lucr\IeC {\u a}rii}{2}{section.1.3}
+\contentsline {chapter}{\numberline {2}Obiective \IeC {{\textcommabelow s}}i specifica\IeC {{\textcommabelow t}}ii}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}Obiective}{3}{section.2.1}
+\contentsline {section}{\numberline {2.2}Specifica\IeC {{\textcommabelow t}}ii}{4}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Specifica\IeC {{\textcommabelow t}}ii func\IeC {{\textcommabelow t}}ionale}{4}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Specifica\IeC {{\textcommabelow t}}ii non-func\IeC {{\textcommabelow t}}ionale}{5}{subsection.2.2.2}
+\contentsline {chapter}{\numberline {3}Studiu bibliografic}{7}{chapter.3}
+\contentsline {section}{\numberline {3.1}Abord\IeC {\u a}ri similare}{7}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}TeamViewer}{7}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Remote Desktop Connection}{8}{subsection.3.1.2}
+\contentsline {subsection}{\numberline {3.1.3}RealVNC}{8}{subsection.3.1.3}
+\contentsline {section}{\numberline {3.2}Tehnici/Tehnologii/Surse folosite}{8}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Intel vPro}{9}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Intel Active Management Technology}{9}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Virtual Network Computing}{10}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}Keyboard Video Mouse}{11}{subsection.3.2.4}
+\contentsline {subsection}{\numberline {3.2.5}Remote Framebuffer}{12}{subsection.3.2.5}
+\contentsline {subsection}{\numberline {3.2.6}Libr\IeC {\u a}ria vncamt}{13}{subsection.3.2.6}
+\contentsline {chapter}{\numberline {4}Fundamente teoretice}{15}{chapter.4}
+\contentsline {section}{\numberline {4.1}Protocolul Remote Framebuffer}{15}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Codificare}{15}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Transmiterea de mesaje}{16}{subsection.4.1.2}
+\contentsline {subsection}{\numberline {4.1.3}Actualizare Framebuffer}{16}{subsection.4.1.3}
+\contentsline {subsection}{\numberline {4.1.4}Raw Pixel Data}{17}{subsection.4.1.4}
+\contentsline {section}{\numberline {4.2}Tehnologii}{17}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Numpy}{17}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Pygame}{18}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Python C Api}{19}{subsection.4.2.3}
+\contentsline {subsection}{\numberline {4.2.4}Compilare}{20}{subsection.4.2.4}
+\contentsline {section}{\numberline {4.3}Log \IeC {{\textcommabelow s}}i debugging}{21}{section.4.3}
+\contentsline {chapter}{\numberline {5}Analiz\IeC {\u a} \IeC {{\textcommabelow s}}i proiectare}{23}{chapter.5}
+\contentsline {section}{\numberline {5.1}Structura sistemului}{24}{section.5.1}
+\contentsline {section}{\numberline {5.2}Func\IeC {{\textcommabelow t}}ionare}{26}{section.5.2}
+\contentsline {section}{\numberline {5.3}Interac\IeC {{\textcommabelow t}}iunea dintre module}{27}{section.5.3}
+\contentsline {section}{\numberline {5.4}Organizare}{28}{section.5.4}
+\contentsline {section}{\numberline {5.5}Global Interpreter Lock}{30}{section.5.5}
+\contentsline {section}{\numberline {5.6}Justific\IeC {\u a}ri}{30}{section.5.6}
+\contentsline {chapter}{\numberline {6}Detalii de implementare}{33}{chapter.6}
+\contentsline {section}{\numberline {6.1}Structura modulului}{34}{section.6.1}
+\contentsline {section}{\numberline {6.2}Contorul de referin\IeC {{\textcommabelow t}}e}{35}{section.6.2}
+\contentsline {section}{\numberline {6.3}Structuri de date proprii}{36}{section.6.3}
+\contentsline {section}{\numberline {6.4}Integrarea bibliotecii vncamt}{37}{section.6.4}
+\contentsline {section}{\numberline {6.5}Structuri de date importate}{38}{section.6.5}
+\contentsline {section}{\numberline {6.6}Buffer-ul video}{39}{section.6.6}
+\contentsline {section}{\numberline {6.7}Interfa\IeC {{\textcommabelow t}}\IeC {\u a} utilizator}{42}{section.6.7}
+\contentsline {chapter}{\numberline {7}Teste \IeC {{\textcommabelow s}}i rezultate experimentale}{43}{chapter.7}
+\contentsline {section}{\numberline {7.1}Teste de func\IeC {{\textcommabelow t}}ionalitate}{44}{section.7.1}
+\contentsline {section}{\numberline {7.2}Teste de performan\IeC {{\textcommabelow t}}\IeC {\u a}}{44}{section.7.2}
+\contentsline {chapter}{\numberline {8}Manual utilizator}{51}{chapter.8}
+\contentsline {section}{\numberline {8.1}Instalare}{51}{section.8.1}
+\contentsline {subsection}{\numberline {8.1.1}Configurarea ma\IeC {{\textcommabelow s}}inilor}{51}{subsection.8.1.1}
+\contentsline {subsection}{\numberline {8.1.2}Instalarea modului}{53}{subsection.8.1.2}
+\contentsline {section}{\numberline {8.2}Utilizare}{55}{section.8.2}
+\contentsline {chapter}{\numberline {9}Concluzii}{57}{chapter.9}
+\contentsline {chapter}{Bibliografie}{59}{chapter*.4}
+\contentsline {chapter}{\numberline {A}Cod surs\IeC {\u a} (par\IeC {{\textcommabelow t}}ial)}{61}{chapter.1}

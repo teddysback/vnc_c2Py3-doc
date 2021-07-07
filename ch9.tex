@@ -1,0 +1,38 @@
+
+%\chapter{Conclusions}
+ \chapter{Concluzii}
+\label{cap:concluzii}
+%
+%Cuprinde:
+%
+%\begin{itemize}
+% \item un rezumat al contribuțiilor aduse: ce s-a realizat, relativ la ce s-a propus, în ce constă experiența acumulată, care au fost punctele dificile atinse și rezolvată, recomandări pentru alții care abordează tema, la ce este bun ce s-a obținut etc.
+% 
+% \item a analiză critică a rezultatelor obținute: avantaje, dezavantaje, limitări
+% 
+% \item o descriere a posibilelor dezvoltări și îmbunătățiri ulterioare
+%\end{itemize}
+%
+%Poate fi organizat pe secțiuni, dacă se dorește.
+%
+%Se întinde pe aproximativ 1-2 pagini. 
+
+În capitolele precedente au fost detaliate implementarea și problemele apărute pentru dezvoltarea acestui modul. S-a realizat o soluție proprie pentru o necesitate reală. Evident, s-au folosit module și tehnologii existente în implementarea acestui proiect. La fel ca în realizarea prototipului anterior, și acest proiect a ajutat la îmbogățirea cunoștințelor despre diverse subiecte: detalii suplimentare despre funcționarea AMT, tehnici de desenare în Python, scrierea de extensii în limbajul C, etc. Deși nu s-a atins potențialul maxim al avantajelor oferite de AMT, acest proiect și-a atins scopul, și s-a făcut posibilă atât accesarea simultană a mai multor buffere video de la distanță, cât și oferirea acestei funcționalități utilizatorilor de Python 3.5.  
+
+S-au realizat diverse teste cu acest modul. Cel mai interesant test de performanță, cel prezentat și în această lucrare în capitolul dedicat testării, scoate la suprafață informații interesante. Soluția implementată este în momentul de față mai costisitoare din punct de vedere al volumului de date de pe rețea. Deși acesta este un dezavantaj, nu este unul atât de mare. Diferențele dintre RealVNC și acest proiect nu sunt observabile cu ochiul liber. În plus, viteza nu a fost niciodată o prioritate. Important a fost sa obține acces simultan la framebuffere. Lucru care RealVNC nu îl oferă.
+
+Există multe funcționalități ce pot fi adăugate acestui proiect, dar din cele ce sunt strict legate de VNC putem enumera următoarele:
+\begin{itemize}
+  \item Posibilitatea de a trimite evenimente de input de la tastatură sau mouse, lucru care este deja în dezvoltare
+  \item Îmbunătățirea sistemului de management al erorilor
+  \item Adăugarea de suport și pentru alte codificări
+  \item Posibilitatea de a alege și o variantă mai mică pentru bpp(bits per pixel), facilitând astfel o viteza mai mare
+  \item Posibilitatea de a face o captură de ecran, s-a încercat deja și este fezabil
+  \item Posibilitatea de detecție mașinilor care s-au blocat sau care au întâmpinat un BSOD( Blue Screen Of Death)
+  \item Capacitatea de înregistrare a unui stream video, pentru a fi mai târziu vizionat
+\end{itemize}
+
+
+Ca și concluzie generală, rezultatul este unul satisfăcător deoarece s–a reușit implementarea unei idei într-o manieră nouă pentru a accesa buffer-ul video de la mai multe mașini aflate la distanță.
+
+
